@@ -2,8 +2,6 @@ const newsModel = require("../models/news");
 const miscHelper = require("../helpers");
 const uniqid = require("uniqid");
 const { ip } = require("../configs");
-const { request } = require("express");
-const { response } = require("../helpers");
 
 module.exports = {
   insertNews: async (request, response) => {
@@ -21,7 +19,7 @@ module.exports = {
         date_updated: new Date(),
       };
       const result = await newsModel.insertNews(data);
-      miscHelper.response(response, 200, result);
+      miscHelper.customResponse(response, 200, result);
     } catch (error) {
       console.log(error);
       miscHelper.customErrorResponse(response, 404, "Cannot insert news!");
@@ -38,7 +36,7 @@ module.exports = {
         search_title,
         search_category
       );
-      miscHelper.response(response, 200, result);
+      miscHelper.customResponse(response, 200, result);
     } catch (error) {
       console.log(error);
       miscHelper.customErrorResponse(response, 404, "Cannot read any news!");
@@ -58,7 +56,7 @@ module.exports = {
           date_updated: new Date(),
         };
         const result = await newsModel.updateNews(data, news_id);
-        miscHelper.response(response, 200, result);
+        miscHelper.customResponse(response, 200, result);
       } else {
         const data = {
           news_title: request.body.news_title,
@@ -70,7 +68,7 @@ module.exports = {
           date_updated: new Date(),
         };
         const result = await newsModel.updateNews(data, news_id);
-        miscHelper.response(response, 200, result);
+        miscHelper.customResponse(response, 200, result);
       }
     } catch (error) {
       console.log(error);
@@ -81,7 +79,7 @@ module.exports = {
     try {
       const news_id = request.params.news_id;
       const result = await newsModel.deleteNews(news_id);
-      miscHelper.response(response, 200, result);
+      miscHelper.customResponse(response, 200, result);
     } catch (error) {
       console.log(error);
       miscHelper.customErrorResponse(response, 404, "Cannot delete news!");

@@ -1,7 +1,7 @@
 const crypto = require("crypto");
 
 module.exports = {
-  response: (response, status, data) => {
+  customResponse: (response, status, data) => {
     const result = {};
 
     result.status = status || 200;
