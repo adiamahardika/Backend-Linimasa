@@ -44,21 +44,21 @@ module.exports = {
       miscHelper.customErrorResponse(response, 404, "Cannot read any news!");
     }
   },
-  updateNews: async(request, response) => {
+  updateNews: async (request, response) => {
     try {
       const news_id = request.params.news_id;
 
-      if (!request.file || Object.keys(request.file).length === 0){
+      if (!request.file || Object.keys(request.file).length === 0) {
         const data = {
           news_title: request.body.news_title,
-        news_content: request.body.news_content,
-        news_image_description: request.body.news_image_description,
-        news_category: request.body.news_category,
-        news_author: request.body.news_author,
-        date_updated: new Date(),
-        }
-        const result = await newsModel.updateNews(data, news_id)
-        miscHelper.response(response, 200,result)
+          news_content: request.body.news_content,
+          news_image_description: request.body.news_image_description,
+          news_category: request.body.news_category,
+          news_author: request.body.news_author,
+          date_updated: new Date(),
+        };
+        const result = await newsModel.updateNews(data, news_id);
+        miscHelper.response(response, 200, result);
       } else {
         const data = {
           news_title: request.body.news_title,
@@ -67,24 +67,24 @@ module.exports = {
           news_image_description: request.body.news_image_description,
           news_category: request.body.news_category,
           news_author: request.body.news_author,
-          date_updated: new Date()
-        }
-        const result = await newsModel.updateNews(data, news_id)
-        miscHelper.response(response, 200, result)
+          date_updated: new Date(),
+        };
+        const result = await newsModel.updateNews(data, news_id);
+        miscHelper.response(response, 200, result);
       }
     } catch (error) {
-      console.log(error)
-      miscHelper.customErrorResponse(response, 404, "Cannot update news!")
+      console.log(error);
+      miscHelper.customErrorResponse(response, 404, "Cannot update news!");
     }
   },
-  deleteNews: async(request, response) => {
+  deleteNews: async (request, response) => {
     try {
-      const news_id = request.params.news_id
-      const result = await newsModel.deleteNews(news_id)
-      miscHelper.response(response, 200, result)
+      const news_id = request.params.news_id;
+      const result = await newsModel.deleteNews(news_id);
+      miscHelper.response(response, 200, result);
     } catch (error) {
-      console.log(error)
-      miscHelper.customErrorResponse(response, 404, "Cannot delete news!")
+      console.log(error);
+      miscHelper.customErrorResponse(response, 404, "Cannot delete news!");
     }
-  }
+  },
 };
