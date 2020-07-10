@@ -24,7 +24,7 @@ module.exports = {
       miscHelper.response(response, 200, result);
     } catch (error) {
       console.log(error);
-      miscHelper.customErrorResponse(response, 404, "Cannot Insert News!");
+      miscHelper.customErrorResponse(response, 404, "Cannot insert news!");
     }
   },
   readNews: async (request, response) => {
@@ -44,4 +44,39 @@ module.exports = {
       miscHelper.customErrorResponse(response, 404, "Cannot read any news!");
     }
   },
+  updateNews: async(request, response) => {
+    try {
+      const news_id = request.params.news_id;
+
+      if (!request.file || Object.keys(request.file).length === 0){
+        const data = {
+          news_title: request.body.news_title,
+        news_content: request.body.news_content,
+        news_image_description: request.body.news_image_description,
+        news_category: request.body.news_category,
+        news_author: request.body.news_author,
+        date_updated: new Date(),
+        }
+        console.log(data)
+        const result = await newsModel.updateNews(data, news_id)
+        miscHelper.response(response, 200,result)
+      } else {
+        const data = {
+          news_title: request.body.news_title,
+          news_image: `http://${ip}/assets/upload/images/${request.file.filename}`,
+          news_content: request.body.news_content,
+          news_image_description: request.body.news_image_description,
+          news_category: request.body.news_category,
+          news_author: request.body.news_author,
+          date_updated: new Date()
+        }
+        console.log(data)
+        const result = await newsModel.updateNews(data, news_id)
+        miscHelper.response(response, 200, result)
+      }
+    } catch (error) {
+      console.log(error)
+      miscHelper.customErrorResponse(response, 404, "Cannot update news!")
+    }
+  }
 };
