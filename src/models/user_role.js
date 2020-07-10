@@ -10,4 +10,15 @@ module.exports = {
       });
     });
   },
+  readUserRole: (search_user_role) => {
+      return new Promise((resolve, reject) => {
+        connection.query(
+            `SELECT * FROM user_role_table WHERE user_role_table.user_role_name LIKE '%${search_user_role}'`,
+            (error, result) => {
+              if (error) reject(new Error(error));
+              resolve(result);
+            }
+          )
+      });
+  },
 };
