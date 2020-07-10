@@ -53,5 +53,15 @@ module.exports = {
           console.log(error)
           miscHelper.customErrorResponse(response, 404, 'Cannot update news category!')
       }
+  },
+  deleteNewsCategory: async (request, response) => {
+      try {
+          const category_id = request.params.category_id
+          const result = await categoryModel.deleteNewsCategory(category_id)
+          miscHelper.customResponse(response, 200, result)
+      } catch (error) {
+          console.log(error)
+          miscHelper.customErrorResponse(response, 404, 'Cannot delete news category!')
+      }
   }
 };

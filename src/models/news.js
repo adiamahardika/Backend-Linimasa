@@ -33,21 +33,21 @@ module.exports = {
     });
   },
   updateNews: (data, news_id) => {
-      return new Promise((resolve, reject) => {
-          connection.query('UPDATE news_table SET ? WHERE id = ?', [data, news_id])
-          connection.query('SELECT * FROM news_table', (error, result) => {
-              if(error) reject(new Error(error))
-              resolve(result)
-          })
-      })
+    return new Promise((resolve, reject) => {
+      connection.query("UPDATE news_table SET ? WHERE id = ?", [data, news_id]);
+      connection.query("SELECT * FROM news_table", (error, result) => {
+        if (error) reject(new Error(error));
+        resolve(result);
+      });
+    });
   },
   deleteNews: (news_id) => {
-      return new Promise((resolve, reject) => {
-          connection.query('DELETE FROM news_table WHERE id = ?', news_id)
-          connection.query('SELECT * FROM news_table', (error, result) => {
-            if(error) reject(new Error(error))
-            resolve(result)
-        })
-      })
-  }
+    return new Promise((resolve, reject) => {
+      connection.query("DELETE FROM news_table WHERE id = ?", news_id);
+      connection.query("SELECT * FROM news_table", (error, result) => {
+        if (error) reject(new Error(error));
+        resolve(result);
+      });
+    });
+  },
 };

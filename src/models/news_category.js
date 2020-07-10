@@ -33,4 +33,16 @@ module.exports = {
       });
     });
   },
+  deleteNewsCategory: (category_id) => {
+    return new Promise((resolve, reject) => {
+      connection.query(
+        "DELETE FROM news_category_table WHERE id = ?",
+        category_id
+      );
+      connection.query(`SELECT * FROM news_category_table`, (error, result) => {
+        if (error) reject(new Error(error));
+        resolve(result);
+      });
+    });
+  },
 };
