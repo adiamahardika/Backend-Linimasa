@@ -8,7 +8,7 @@ const { response } = require("../helpers");
 module.exports = {
   insertNews: async (request, response) => {
     try {
-      const id = uniqid.process();
+      const id = Date.now() + uniqid.process();
       const data = {
         id,
         news_title: request.body.news_title,
@@ -22,8 +22,26 @@ module.exports = {
       };
       const result = await newsModel.insertNews(data);
       miscHelper.response(response, 200, result);
-    } catch(error) {
-        console.log(error)
+    } catch (error) {
+      console.log(error);
+      miscHelper.customErrorResponse(response, 404, "Cannot Insert News!");
     }
-  }
+  },
+  readNews: async (request, response) => {
+    try {
+      const news_id = request.params.news_id || null;
+
+      const search_title = request.query.news_title || "";
+      const search_category = request.query.news_category || "";
+      const result = await newsModel.readNews(
+        news_id,
+        search_title,
+        search_category
+      );
+      miscHelper.response(response, 200, result);
+    } catch (error) {
+      console.log(error);
+      miscHelper.customErrorResponse(response, 404, "Cannot read any news!");
+    }
+  },
 };

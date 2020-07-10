@@ -6,7 +6,7 @@ const storage = multer.diskStorage({
     callback(null, "./assets/upload/images");
   },
   filename: function (request, file, callback) {
-    let customFileName = Date.now() + crypto.randomBytes(18).toString('hex'),
+    let customFileName = Date.now() + crypto.randomBytes(6).toString('hex'),
     fileExtension = file.originalname.split('.')[1]
     callback(null, customFileName + '.' + fileExtension);
   },
