@@ -57,7 +57,6 @@ module.exports = {
         news_author: request.body.news_author,
         date_updated: new Date(),
         }
-        console.log(data)
         const result = await newsModel.updateNews(data, news_id)
         miscHelper.response(response, 200,result)
       } else {
@@ -70,13 +69,22 @@ module.exports = {
           news_author: request.body.news_author,
           date_updated: new Date()
         }
-        console.log(data)
         const result = await newsModel.updateNews(data, news_id)
         miscHelper.response(response, 200, result)
       }
     } catch (error) {
       console.log(error)
       miscHelper.customErrorResponse(response, 404, "Cannot update news!")
+    }
+  },
+  deleteNews: async(request, response) => {
+    try {
+      const news_id = request.params.news_id
+      const result = await newsModel.deleteNews(news_id)
+      miscHelper.response(response, 200, result)
+    } catch (error) {
+      console.log(error)
+      miscHelper.customErrorResponse(response, 404, "Cannot delete news!")
     }
   }
 };

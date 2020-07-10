@@ -40,5 +40,14 @@ module.exports = {
               resolve(result)
           })
       })
+  },
+  deleteNews: (news_id) => {
+      return new Promise((resolve, reject) => {
+          connection.query('DELETE FROM news_table WHERE id = ?', news_id)
+          connection.query('SELECT * FROM news_table', (error, result) => {
+            if(error) reject(new Error(error))
+            resolve(result)
+        })
+      })
   }
 };
