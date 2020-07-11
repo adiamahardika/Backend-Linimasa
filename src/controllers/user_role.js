@@ -33,4 +33,28 @@ module.exports = {
       );
     }
   },
+  updateUserRole: async (request, response) => {
+    try {
+      const user_role_id = request.params.user_role_id;
+      const data = {
+        user_role_name: request.body.user_role_name,
+        date_updated: new Date(),
+      };
+      const result = await userRoleModel.updateUserRole(data, user_role_id);
+      miscHelper.customResponse(response, 200, result);
+    } catch (error) {
+      console.log(error);
+      miscHelper.customErrorResponse(response, 404, "Cannot update user role!");
+    }
+  },
+  deleteUserRole: async (request, response) => {
+    try {
+      const user_role_id = request.params.user_role_id;
+      const result = await userRoleModel.deleteUserRole(user_role_id)
+      miscHelper.customResponse(response, 200, result)
+    } catch (error) {
+      console.log(error)
+      miscHelper.customErrorResponse(response, 404, "Cannot delete user role!")
+    }
+  }
 };
