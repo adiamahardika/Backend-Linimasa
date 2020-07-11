@@ -11,13 +11,14 @@ module.exports = {
         id,
         news_title: request.body.news_title,
         news_content: request.body.news_content,
-        news_image: `http://${ip}/assets/upload/images/${request.file.filename}`,
+        news_image: `http://${ip}/assets/upload/images/news/${request.file.filename}`,
         news_image_description: request.body.news_image_description,
         news_category: request.body.news_category,
         news_author: request.body.news_author,
         date_created: new Date(),
         date_updated: new Date(),
       };
+      console.log(data)
       const result = await newsModel.insertNews(data);
       miscHelper.customResponse(response, 200, result);
     } catch (error) {
