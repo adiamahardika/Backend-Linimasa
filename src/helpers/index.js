@@ -22,12 +22,12 @@ module.exports = {
       .toString("hex")
       .slice(0, length);
   },
-  setPassword: (password, salt) => {
-    const hash = crypto.createHmac("sha512", salt);
-    hash.update(password);
+  setPassword: (user_password, user_salt) => {
+    const hash = crypto.createHmac("sha512", user_salt);
+    hash.update(user_password);
     const value = hash.digest("hex");
     return {
-      salt: salt,
+      user_salt: user_salt,
       passwordHash: value,
     };
   },

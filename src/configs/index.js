@@ -9,5 +9,6 @@ module.exports = {
   },
   port: process.env.PORT,
   JWT_Key: process.env.JWT_SecretKey,
+  JWT_Refresh: process.env.JWT_RefreshKey,
   ip: process.env.DB_IP,
 };
