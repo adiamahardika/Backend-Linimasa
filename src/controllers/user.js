@@ -29,8 +29,6 @@ module.exports = {
         date_updated: new Date(),
       };
       const result = await userModel.register(data);
-      delete result.user_password;
-      delete result.user_salt;
       miscHelper.customResponse(response, 200, result);
     } catch (error) {
       console.log(error);
@@ -81,8 +79,7 @@ module.exports = {
     }
   },
   token: async (request, response) => {
-    setData = request.body
-    console.log(tokenList)
+    setData = request.body;
     if (setData.refreshToken == tokenList[setData.user_email].refreshToken) {
       const user = {
         user_email: tokenList.user_email,
@@ -99,6 +96,18 @@ module.exports = {
         404,
         "Cannot refresh token!"
       );
+    }
+  },
+  readUser: async (request, response) => {
+    try {
+      const user_id = request.params.user_id || null;
+      const search_user_name = request.query.user_name || "";
+      const search_role = request.query.user_role || "";
+      const result = await userModel.readUser(user_id, search_user_name, search_role);
+      miscHelper.customResponse(response, 200, result);
+    } catch (error) {
+      console.log(error);
+      miscHelper.customErrorResponse(response, 404, "Cannot read any user!");
     }
   },
 };

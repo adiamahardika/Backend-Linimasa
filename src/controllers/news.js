@@ -29,7 +29,6 @@ module.exports = {
   readNews: async (request, response) => {
     try {
       const news_id = request.params.news_id || null;
-
       const search_title = request.query.news_title || "";
       const search_category = request.query.news_category || "";
       const result = await newsModel.readNews(
