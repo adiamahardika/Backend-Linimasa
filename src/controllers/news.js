@@ -18,7 +18,6 @@ module.exports = {
         date_created: new Date(),
         date_updated: new Date(),
       };
-      console.log(data)
       const result = await newsModel.insertNews(data);
       miscHelper.customResponse(response, 200, result);
     } catch (error) {
@@ -31,10 +30,14 @@ module.exports = {
       const news_id = request.params.news_id || null;
       const search_title = request.query.news_title || "";
       const search_category = request.query.news_category || "";
+      const sort_by = request.query.sort_by || "date_updated"
+      const order_by = request.query.order_by || "DESC"
       const result = await newsModel.readNews(
         news_id,
         search_title,
-        search_category
+        search_category,
+        sort_by,
+        order_by
       );
       miscHelper.customResponse(response, 200, result);
     } catch (error) {
