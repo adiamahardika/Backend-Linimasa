@@ -7,10 +7,11 @@ const {
   updateNews,
   deleteNews,
 } = require("../controllers/news");
-const uploadImages = require("../controllers/images");
-Route.post("/", uploadImages, insertNews)
+const {uploadNewsImages} = require("../controllers/images");
+Route
+  .post("/", uploadNewsImages, insertNews)
   .get("/", readNews)
   .get("/:news_id", readNews)
-  .patch("/:news_id", uploadImages, updateNews)
+  .patch("/:news_id", uploadNewsImages, updateNews)
   .delete("/:news_id", deleteNews);
 module.exports = Route;

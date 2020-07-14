@@ -1,19 +1,27 @@
 const multer = require("multer");
-const crypto = require("crypto")
+const crypto = require("crypto");
 
-const storage = multer.diskStorage({
-  destination: function (request, file, callback) {
-    callback(null, "./assets/upload/images");
-  },
-  filename: function (request, file, callback) {
-    let customFileName = Date.now() + crypto.randomBytes(6).toString('hex'),
-    fileExtension = file.originalname.split('.')[1]
-    callback(null, customFileName + '.' + fileExtension);
-  },
-});
+const filename = (request, file, callback) => {
+  let customFileName = Date.now() + crypto.randomBytes(6).toString("hex"),
+    fileExtension = file.originalname.split(".")[1];
+  callback(null, customFileName + "." + fileExtension);
+};
 
-const uploadImages = multer({
-  storage,
-}).single("news_image");
-
-module.exports = uploadImages;
+module.exports = {
+  uploadNewsImages: multer({
+    storage: multer.diskStorage({
+      destination: function (request, file, callback) {
+        callback(null, "./assets/upload/images/news");
+      },
+      filename,
+    }),
+  }).single("news_image"),
+  uploadProfileImages: multer({
+    storage: multer.diskStorage({
+      destination: function (request, file, callback) {
+        callback(null, "./assets/upload/images/profile");
+      },
+      filename,
+    }),
+  }).single("user_image"),
+};
