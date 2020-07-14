@@ -1,7 +1,7 @@
 const express = require("express");
 const Route = express.Router();
 
-const { register, login, token, readUser, updateUser } = require("../controllers/user");
+const { register, login, token, readUser, updateUser, deleteUser } = require("../controllers/user");
 
 const { uploadProfileImages } = require("../controllers/images");
 
@@ -12,4 +12,5 @@ Route
   .get("/", readUser)
   .get("/:user_id", readUser)
   .patch("/:user_id", uploadProfileImages, updateUser)
+  .delete("/:user_id", deleteUser)
 module.exports = Route;

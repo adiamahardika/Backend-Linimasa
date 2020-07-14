@@ -146,5 +146,14 @@ module.exports = {
       miscHelper.customErrorResponse(response, 404, 'Cannot update user!')
     }
   },
-
+  deleteUser: async (request, response) => {
+    try {
+      const user_id = request.params.user_id
+      const result = await userModel.deleteUser(user_id)
+      miscHelper.customErrorResponse(response, 200, result)
+    } catch (error) {
+      console.log(error)
+      miscHelper.customErrorResponse(response, 404, 'Cannot delete user!')
+    }
+  }
 };

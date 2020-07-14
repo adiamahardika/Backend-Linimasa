@@ -59,4 +59,16 @@ module.exports = {
       );
     });
   },
+  deleteUser: (user_id) => {
+    return new Promise((resolve, reject) => {
+      connection.query("DELETE FROM user_table WHERE id = ?", user_id);
+      connection.query(
+        `SELECT user_table.*, user_role_table.user_role_name FROM user_table LEFT JOIN user_role_table ON user_table.user_role = user_role_table.id`,
+        (error, result) => {
+          if (error) reject(new Error(error));
+          resolve(result);
+        }
+      );
+    });
+  },
 };
