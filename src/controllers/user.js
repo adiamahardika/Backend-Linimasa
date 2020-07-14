@@ -3,6 +3,7 @@ const miscHelper = require("../helpers");
 const uniqid = require("uniqid");
 const { ip, JWT_Key, JWT_Refresh } = require("../configs");
 const JWT = require("jsonwebtoken");
+const { request, response } = require("express");
 const tokenList = {};
 
 module.exports = {
@@ -110,4 +111,40 @@ module.exports = {
       miscHelper.customErrorResponse(response, 404, "Cannot read any user!");
     }
   },
+  updateUser: async (request, response) =>{
+    try {
+      const user_id = request.params.user_id
+
+      if (!request.file || Object.keys(request.file).length === 0){
+        const data = {
+        user_name: request.body.user_name,
+        user_email: request.body.user_email,
+        user_role: request.body.user_role,
+        user_birth_date: request.body.user_birth_date,
+        user_phone_number: request.body.user_phone_number,
+        user_points: request.body.user_points,
+        date_updated: new Date()
+        }
+        const result = await userModel.updateUser(data, user_id)
+        miscHelper.customResponse(response, 200, result)
+      } else {
+        const data = {
+        user_name: request.body.user_name,
+        user_email: request.body.user_email,
+        user_role: request.body.user_role,
+        user_birth_date: request.body.user_birth_date,
+        user_phone_number: request.body.user_phone_number,
+        user_points: 0,
+        user_image: `http://${ip}/assets/upload/images/profile/${request.file.filename}`,
+        date_updated: new Date()
+        }
+        const result = await userModel.updateUser(data, user_id)
+        miscHelper.customResponse(response, 200, result)
+      }
+    } catch (error) {
+      console.log(error)
+      miscHelper.customErrorResponse(response, 404, 'Cannot update user!')
+    }
+  },
+
 };
