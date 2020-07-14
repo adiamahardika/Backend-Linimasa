@@ -1,11 +1,11 @@
 const connection = require("../configs/mysql");
-const { use } = require("../routes/user_role");
+const readQuery = `SELECT * FROM user_role_table`;
 
 module.exports = {
   insertUserRole: (data) => {
     return new Promise((resolve, reject) => {
       connection.query(`INSERT INTO user_role_table SET ?`, data);
-      connection.query(`SELECT * FROM user_role_table`, (error, result) => {
+      connection.query(readQuery, (error, result) => {
         if (error) reject(new Error(error));
         resolve(result);
       });
@@ -28,7 +28,7 @@ module.exports = {
         data,
         user_role_id,
       ]);
-      connection.query(`SELECT * FROM user_role_table`, (error, result) => {
+      connection.query(readQuery, (error, result) => {
         if (error) reject(new Error(error));
         resolve(result);
       });
@@ -36,11 +36,14 @@ module.exports = {
   },
   deleteUserRole: (user_role_id) => {
     return new Promise((resolve, reject) => {
-      connection.query(`DELETE FROM user_role_table WHERE id = ?`, user_role_id)
-      connection.query(`SELECT * FROM user_role_table`, (error, result) => {
+      connection.query(
+        `DELETE FROM user_role_table WHERE id = ?`,
+        user_role_id
+      );
+      connection.query(readQuery, (error, result) => {
         if (error) reject(new Error(error));
         resolve(result);
       });
-    })
-  }
+    });
+  },
 };
