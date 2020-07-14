@@ -49,5 +49,15 @@ module.exports = {
       console.log(error)
       miscHelper.customErrorResponse(response, 404, 'Cannot update commentar!')
     }
+  },
+  deleteCommentar: async (request, response) => {
+    try {
+      const commentar_id = request.params.commentar_id
+      const result = await commentarModel.deleteCommentar(commentar_id)
+      miscHelper.customResponse(response, 200, result)
+    } catch (error) {
+      console.log(error)
+      miscHelper.customErrorResponse(response, 200, 'Cannot delete commentar')
+    }
   }
 };

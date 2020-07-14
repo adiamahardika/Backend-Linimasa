@@ -41,5 +41,14 @@ module.exports = {
         resolve(result)
       })
     })
+  },
+  deleteCommentar: (commentar_id) => {
+    return new Promise((resolve, reject) => {
+      connection.query("DELETE FROM commentar_table WHERE id = ?", commentar_id)
+      connection.query(readQuery, (error, result) => {
+        if (error) reject(new Error(error))
+        resolve(result)
+      })
+    })
   }
 };
