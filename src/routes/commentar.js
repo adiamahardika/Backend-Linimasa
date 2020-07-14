@@ -1,9 +1,11 @@
-const express = require("express")
+const express = require("express");
 
-const Route = express.Router()
+const Route = express.Router();
 
-const {insertCommentar} = require("../controllers/commentar")
+const { insertCommentar, readCommentar } = require("../controllers/commentar");
 
 Route
-.post("/", insertCommentar)
-module.exports = Route
+    .post("/", insertCommentar)
+    .get("/", readCommentar)
+    .get("/:commentar_id", readCommentar)
+module.exports = Route;

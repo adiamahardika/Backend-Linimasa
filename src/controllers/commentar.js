@@ -23,10 +23,13 @@ module.exports = {
   },
   readCommentar: async (request, response) => {
     try {
-      const commentar_id = request.params.commentar_id || null
-      const search_user = request.query.user_name || null
-      const search_news = request.query.search_news || null
-      const result = await commentarModel.readCommentar(commentar_id, search_user, search_news)
+      const data = {
+      commentar_id : request.params.commentar_id || null,
+      search_user_name : request.query.user_name || "",
+      search_news_id : request.query.news_id || "",
+      search_commentar : request.query.commentar || ""
+      }
+      const result = await commentarModel.readCommentar(data)
       miscHelper.customResponse(response, 200, result)
     } catch (error) {
       console.log(error)
