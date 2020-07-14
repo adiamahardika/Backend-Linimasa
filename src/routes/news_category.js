@@ -9,7 +9,8 @@ const {
   deleteNewsCategory,
 } = require("../controllers/news_category");
 
-Route.post("/", insertNewsCategory)
+Route
+  .post("/", insertNewsCategory)
   .get("/", readNewsCategory)
   .patch("/:category_id", updateNewsCategory)
   .delete("/:category_id", deleteNewsCategory);

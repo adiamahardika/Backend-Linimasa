@@ -1,10 +1,10 @@
 const connection = require("../configs/mysql");
-
+const readQuery = `SELECT * FROM news_category_table`;
 module.exports = {
   insertNewsCategory: (data) => {
     return new Promise((resolve, reject) => {
       connection.query(`INSERT INTO news_category_table SET ?`, data);
-      connection.query(`SELECT * FROM news_category_table`, (error, result) => {
+      connection.query(readQuery, (error, result) => {
         if (error) reject(new Error(error));
         resolve(result);
       });
@@ -27,7 +27,7 @@ module.exports = {
         data,
         category_id,
       ]);
-      connection.query(`SELECT * FROM news_category_table`, (error, result) => {
+      connection.query(readQuery, (error, result) => {
         if (error) reject(new Error(error));
         resolve(result);
       });
@@ -39,7 +39,7 @@ module.exports = {
         "DELETE FROM news_category_table WHERE id = ?",
         category_id
       );
-      connection.query(`SELECT * FROM news_category_table`, (error, result) => {
+      connection.query(readQuery, (error, result) => {
         if (error) reject(new Error(error));
         resolve(result);
       });
