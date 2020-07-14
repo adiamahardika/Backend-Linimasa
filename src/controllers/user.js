@@ -9,31 +9,60 @@ const tokenList = {};
 module.exports = {
   register: async (request, response) => {
     try {
-      const user_salt = miscHelper.generateSalt(18);
-      const hashPassword = miscHelper.setPassword(
-        request.body.user_password,
-        user_salt
-      );
-      const id = Date.now() + uniqid.process();
-      const data = {
-        id,
-        user_name: request.body.user_name,
-        user_email: request.body.user_email,
-        user_password: hashPassword.passwordHash,
-        user_salt: hashPassword.user_salt,
-        user_role: request.body.user_role,
-        user_birth_date: request.body.user_birth_date,
-        user_phone_number: request.body.user_phone_number,
-        user_points: 0,
-        user_image: `http://${ip}/assets/upload/images/profile/${request.file.filename}`,
-        date_created: new Date(),
-        date_updated: new Date(),
-      };
-      const result = await userModel.register(data);
-      miscHelper.customResponse(response, 200, result);
+      const emailValid = await userModel.checkEmail(request.body.user_email);
+      const dataUser = emailValid[0];
+      if (dataUser == undefined) {
+        const user_salt = miscHelper.generateSalt(18);
+        const hashPassword = miscHelper.setPassword(
+          request.body.user_password,
+          user_salt
+        );
+        const id = Date.now() + uniqid.process();
+        if (!request.file || Object.keys(request.file).length === 0) {
+          const data = {
+            id,
+            user_name: request.body.user_name,
+            user_email: request.body.user_email,
+            user_password: hashPassword.passwordHash,
+            user_salt: hashPassword.user_salt,
+            user_role: request.body.user_role,
+            user_birth_date: request.body.user_birth_date,
+            user_phone_number: request.body.user_phone_number,
+            user_points: 0,
+            user_image: `http://${ip}/assets/upload/images/profile/default-profile-images.png`,
+            date_created: new Date(),
+            date_updated: new Date(),
+          };
+          const result = await userModel.register(data);
+          miscHelper.customResponse(response, 200, result);
+        } else {
+          const data = {
+            id,
+            user_name: request.body.user_name,
+            user_email: request.body.user_email,
+            user_password: hashPassword.passwordHash,
+            user_salt: hashPassword.user_salt,
+            user_role: request.body.user_role,
+            user_birth_date: request.body.user_birth_date,
+            user_phone_number: request.body.user_phone_number,
+            user_points: 0,
+            user_image: `http://${ip}/assets/upload/images/profile/${request.file.filename}`,
+            date_created: new Date(),
+            date_updated: new Date(),
+          };
+          const result = await userModel.register(data);
+          miscHelper.customResponse(response, 200, result);
+        }
+      } else {
+        miscHelper.customErrorResponse(
+          response,
+          404,
+          "Your email has already registered!"
+        );
+      }
     } catch (error) {
       console.log(error);
-      miscHelper.customErrorResponse(response, 404, "Cannot register any user");
+      miscHelper.customErrorResponse(response, 404, "Cannot register user!");
     }
   },
   login: async (request, response) => {
@@ -104,47 +133,60 @@ module.exports = {
       const user_id = request.params.user_id || null;
       const search_user_name = request.query.user_name || "";
       const search_role = request.query.user_role || "";
-      const result = await userModel.readUser(user_id, search_user_name, search_role);
+      const result = await userModel.readUser(
+        user_id,
+        search_user_name,
+        search_role
+      );
       miscHelper.customResponse(response, 200, result);
     } catch (error) {
       console.log(error);
       miscHelper.customErrorResponse(response, 404, "Cannot read any user!");
     }
   },
-  updateUser: async (request, response) =>{
+  updateUser: async (request, response) => {
     try {
-      const user_id = request.params.user_id
+      const user_id = request.params.user_id;
 
-      if (!request.file || Object.keys(request.file).length === 0){
+      if (!request.file || Object.keys(request.file).length === 0) {
         const data = {
-        user_name: request.body.user_name,
-        user_email: request.body.user_email,
-        user_role: request.body.user_role,
-        user_birth_date: request.body.user_birth_date,
-        user_phone_number: request.body.user_phone_number,
-        user_points: request.body.user_points,
-        date_updated: new Date()
-        }
-        const result = await userModel.updateUser(data, user_id)
-        miscHelper.customResponse(response, 200, result)
+          user_name: request.body.user_name,
+          user_email: request.body.user_email,
+          user_role: request.body.user_role,
+          user_birth_date: request.body.user_birth_date,
+          user_phone_number: request.body.user_phone_number,
+          user_points: request.body.user_points,
+          date_updated: new Date(),
+        };
+        const result = await userModel.updateUser(data, user_id);
+        miscHelper.customResponse(response, 200, result);
       } else {
         const data = {
-        user_name: request.body.user_name,
-        user_email: request.body.user_email,
-        user_role: request.body.user_role,
-        user_birth_date: request.body.user_birth_date,
-        user_phone_number: request.body.user_phone_number,
-        user_points: 0,
-        user_image: `http://${ip}/assets/upload/images/profile/${request.file.filename}`,
-        date_updated: new Date()
-        }
-        const result = await userModel.updateUser(data, user_id)
-        miscHelper.customResponse(response, 200, result)
+          user_name: request.body.user_name,
+          user_email: request.body.user_email,
+          user_role: request.body.user_role,
+          user_birth_date: request.body.user_birth_date,
+          user_phone_number: request.body.user_phone_number,
+          user_points: 0,
+          user_image: `http://${ip}/assets/upload/images/profile/${request.file.filename}`,
+          date_updated: new Date(),
+        };
+        const result = await userModel.updateUser(data, user_id);
+        miscHelper.customResponse(response, 200, result);
       }
     } catch (error) {
-      console.log(error)
-      miscHelper.customErrorResponse(response, 404, 'Cannot update user!')
+      console.log(error);
+      miscHelper.customErrorResponse(response, 404, "Cannot update user!");
     }
   },
-
+  deleteUser: async (request, response) => {
+    try {
+      const user_id = request.params.user_id;
+      const result = await userModel.deleteUser(user_id);
+      miscHelper.customErrorResponse(response, 200, result);
+    } catch (error) {
+      console.log(error);
+      miscHelper.customErrorResponse(response, 404, "Cannot delete user!");
+    }
+  },
 };
