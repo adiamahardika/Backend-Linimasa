@@ -33,4 +33,13 @@ module.exports = {
       }
     });
   },
+  updateCommentar: (data, commentar_id) => {
+    return new Promise((resolve, reject) => {
+      connection.query("UPDATE commentar_table SET ? WHERE id = ?", [data, commentar_id])
+      connection.query(readQuery, (error, result) => {
+        if (error) reject(new Error(error))
+        resolve(result)
+      })
+    })
+  }
 };
