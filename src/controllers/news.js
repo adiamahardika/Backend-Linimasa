@@ -12,7 +12,7 @@ module.exports = {
           .toLowerCase()
           .replace(/[^a-zA-Z0-9- ]/g, "")
           .split(" ")
-          .join("-") +
+          .join("-") + "-" +
         Date.now() +
         uniqid.process();
       const data = {

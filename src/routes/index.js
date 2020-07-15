@@ -7,6 +7,7 @@ const user = require("./user");
 const commentar = require("./commentar");
 const ads = require("./ads")
 const videoCategory = require("./video_category")
+const video = require("./video")
 Route
   .use("/news", newsRouter)
   .use("/assets/upload/images", express.static("./assets/upload/images"))
@@ -16,4 +17,6 @@ Route
   .use("/commentar", commentar)
   .use("/ads", ads)
   .use("/video-category", videoCategory)
+  .use("/video", video)
+  .use("/assets/upload/videos", express.static("./assets/upload/videos"))
 module.exports = Route;
