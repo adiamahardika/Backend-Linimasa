@@ -1,5 +1,6 @@
 const connection = require("../configs/mysql");
 const readQuery = `SELECT * FROM news_category_table`;
+
 module.exports = {
   insertNewsCategory: (data) => {
     return new Promise((resolve, reject) => {
