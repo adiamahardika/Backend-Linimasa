@@ -2,7 +2,7 @@ const express = require("express");
 const Route = express.Router();
 
 const { insertAds, readAds, updateAds, deleteAds } = require("../controllers/ads")
-const {uploadAdsImages} = require("../controllers/images")
+const {uploadAdsImages} = require("../controllers/upload")
 Route
     .post("/", uploadAdsImages, insertAds)
     .get("/", readAds)

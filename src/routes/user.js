@@ -10,7 +10,7 @@ const {
   deleteUser,
 } = require("../controllers/user");
 
-const { uploadProfileImages } = require("../controllers/images");
+const { uploadProfileImages } = require("../controllers/upload");
 
 Route
   .post("/register", uploadProfileImages, register)

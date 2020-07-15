@@ -7,7 +7,7 @@ const {
   updateNews,
   deleteNews,
 } = require("../controllers/news");
-const { uploadNewsImages } = require("../controllers/images");
+const { uploadNewsImages } = require("../controllers/upload");
 Route
   .post("/", uploadNewsImages, insertNews)
   .get("/", readNews)
