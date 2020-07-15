@@ -46,4 +46,13 @@ module.exports = {
       });
     });
   },
+  deleteVideo: (video_id) => {
+    return new Promise((resolve, reject) => {
+      connection.query(`DELETE FROM video_table WHERE id = ?`, video_id);
+      connection.query(readQuery, (error, result) => {
+        if (error) reject(new Error(error));
+        resolve(result);
+      });
+    });
+  },
 };

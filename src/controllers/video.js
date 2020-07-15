@@ -84,4 +84,14 @@ module.exports = {
       miscHelper.customErrorResponse(response, 404, "Cannot update video!");
     }
   },
+  deleteVideo: async (request, response) => {
+    try {
+      const video_id = request.params.video_id;
+      const result = await videoModel.deleteVideo(video_id);
+      miscHelper.customResponse(response, 200, result);
+    } catch (error) {
+      console.log(error);
+      miscHelper.customErrorResponse(response, 404, "Cannot delete video!");
+    }
+  },
 };
