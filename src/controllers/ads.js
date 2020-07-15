@@ -7,7 +7,8 @@ module.exports = {
   insertAds: async (request, response) => {
     try {
       const ads_name = request.body.ads_name;
-      const id = ads_name.toLowerCase().split(" ").join("-") + "-" + uniqid.time();
+      const id =
+        ads_name.toLowerCase().split(" ").join("-") + "-" + uniqid.time();
       const data = {
         id,
         ads_name,
@@ -34,26 +35,36 @@ module.exports = {
   },
   updateAds: async (request, response) => {
     try {
-      const ads_id = request.params.ads_id
-      if(!request.file || Object.keys(request.file).length === 0) {
+      const ads_id = request.params.ads_id;
+      if (!request.file || Object.keys(request.file).length === 0) {
         const data = {
-          ads_name : request.body.ads_name,
-          date_updated : new Date()
-        }
-        const result = await adsModel.updateAds(data, ads_id)
-        miscHelper.customResponse(response, 200, result)
+          ads_name: request.body.ads_name,
+          date_updated: new Date(),
+        };
+        const result = await adsModel.updateAds(data, ads_id);
+        miscHelper.customResponse(response, 200, result);
       } else {
         const data = {
-          ads_name : request.body.ads_name,
+          ads_name: request.body.ads_name,
           ads_image: `http://${ip}/assets/upload/images/ads/${request.file.filename}`,
-          date_updated : new Date()
-        }
-        const result = await adsModel.updateAds(data, ads_id)
-        miscHelper.customResponse(response, 200, result)
+          date_updated: new Date(),
+        };
+        const result = await adsModel.updateAds(data, ads_id);
+        miscHelper.customResponse(response, 200, result);
       }
     } catch (error) {
-      console.log(error)
-      miscHelper.customErrorResponse(response, 404, 'Cannot update ads!')
+      console.log(error);
+      miscHelper.customErrorResponse(response, 404, "Cannot update ads!");
     }
-  }
+  },
+  deleteAds: async (request, response) => {
+    try {
+      const ads_id = request.params.ads_id;
+      const result = await adsModel.deleteAds(ads_id);
+      miscHelper.customResponse(response, 200, result);
+    } catch (error) {
+      console.log(error);
+      miscHelper.customErrorResponse(response, 404, "Cannot delete ads!");
+    }
+  },
 };

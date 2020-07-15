@@ -40,4 +40,13 @@ module.exports = {
       });
     });
   },
+  deleteAds: (ads_id) => {
+    return new Promise((resolve, reject) => {
+      connection.query("DELETE FROM ads_table WHERE id = ?", ads_id);
+      connection.query(readQuery, (error, result) => {
+        if (error) reject(new Error(error));
+        resolve(result);
+      });
+    });
+  },
 };
