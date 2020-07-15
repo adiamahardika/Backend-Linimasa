@@ -6,10 +6,18 @@ const { ip } = require("../configs");
 module.exports = {
   insertNews: async (request, response) => {
     try {
-      const id = Date.now() + uniqid.process();
+      const news_title = request.body.news_title;
+      const id =
+        news_title
+          .toLowerCase()
+          .replace(/[^a-zA-Z0-9- ]/g, "")
+          .split(" ")
+          .join("-") +
+        Date.now() +
+        uniqid.process();
       const data = {
         id,
-        news_title: request.body.news_title,
+        news_title,
         news_content: request.body.news_content,
         news_image: `http://${ip}/assets/upload/images/news/${request.file.filename}`,
         news_image_description: request.body.news_image_description,
@@ -30,8 +38,8 @@ module.exports = {
       const news_id = request.params.news_id || null;
       const search_title = request.query.news_title || "";
       const search_category = request.query.news_category || "";
-      const sort_by = request.query.sort_by || "date_updated"
-      const order_by = request.query.order_by || "DESC"
+      const sort_by = request.query.sort_by || "date_updated";
+      const order_by = request.query.order_by || "DESC";
       const result = await newsModel.readNews(
         news_id,
         search_title,

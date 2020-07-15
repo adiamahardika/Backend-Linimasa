@@ -17,11 +17,12 @@ module.exports = {
           request.body.user_password,
           user_salt
         );
-        const id = Date.now() + uniqid.process();
+        const user_name = request.body.user_name;
+        const id = user_name.toLowerCase().split(" ").join("-") + "-" + Date.now() + uniqid.process();
         if (!request.file || Object.keys(request.file).length === 0) {
           const data = {
             id,
-            user_name: request.body.user_name,
+            user_name,
             user_email: request.body.user_email,
             user_password: hashPassword.passwordHash,
             user_salt: hashPassword.user_salt,
@@ -38,7 +39,7 @@ module.exports = {
         } else {
           const data = {
             id,
-            user_name: request.body.user_name,
+            user_name,
             user_email: request.body.user_email,
             user_password: hashPassword.passwordHash,
             user_salt: hashPassword.user_salt,

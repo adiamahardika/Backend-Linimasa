@@ -7,8 +7,7 @@ module.exports = {
   insertAds: async (request, response) => {
     try {
       const ads_name = request.body.ads_name;
-      const id =
-        ads_name.toLowerCase().split(" ").join("-") + "-" + uniqid.time();
+      const id = ads_name.toLowerCase().split(" ").join("-") + "-" + uniqid.time();
       const data = {
         id,
         ads_name,
