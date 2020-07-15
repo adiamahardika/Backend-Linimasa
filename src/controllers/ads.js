@@ -32,4 +32,28 @@ module.exports = {
       miscHelper.customErrorResponse(response, 404, "Cannot read any ads!");
     }
   },
+  updateAds: async (request, response) => {
+    try {
+      const ads_id = request.params.ads_id
+      if(!request.file || Object.keys(request.file).length === 0) {
+        const data = {
+          ads_name : request.body.ads_name,
+          date_updated : new Date()
+        }
+        const result = await adsModel.updateAds(data, ads_id)
+        miscHelper.customResponse(response, 200, result)
+      } else {
+        const data = {
+          ads_name : request.body.ads_name,
+          ads_image: `http://${ip}/assets/upload/images/ads/${request.file.filename}`,
+          date_updated : new Date()
+        }
+        const result = await adsModel.updateAds(data, ads_id)
+        miscHelper.customResponse(response, 200, result)
+      }
+    } catch (error) {
+      console.log(error)
+      miscHelper.customErrorResponse(response, 404, 'Cannot update ads!')
+    }
+  }
 };

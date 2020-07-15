@@ -31,4 +31,13 @@ module.exports = {
       }
     });
   },
+  updateAds: (data, ads_id) => {
+    return new Promise((resolve, reject) => {
+      connection.query("UPDATE ads_table SET ? WHERE id = ?", [data, ads_id]);
+      connection.query(readQuery, (error, result) => {
+        if (error) reject(new Error(error));
+        resolve(result);
+      });
+    });
+  },
 };
