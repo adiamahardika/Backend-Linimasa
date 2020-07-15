@@ -22,4 +22,16 @@ module.exports = {
       );
     });
   },
+  updateVideoCategory: (data, video_category_id) => {
+    return new Promise((resolve, reject) => {
+      connection.query(`UPDATE video_category_table SET ? WHERE id = ?`, [
+        data,
+        video_category_id,
+      ]);
+      connection.query(readQuery, (error, result) => {
+        if (error) reject(new Error(error));
+        resolve(result);
+      });
+    });
+  },
 };
