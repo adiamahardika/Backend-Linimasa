@@ -12,7 +12,8 @@ module.exports = {
           .toLowerCase()
           .replace(/[^a-zA-Z0-9- ]/g, "")
           .split(" ")
-          .join("-") + "-" +
+          .join("-") +
+        "-" +
         Date.now() +
         uniqid.process();
       const data = {
@@ -28,8 +29,28 @@ module.exports = {
       const result = await videoModel.insertVideo(data);
       miscHelper.customResponse(response, 200, result);
     } catch (error) {
-        console.log(error)
-        miscHelper.customErrorResponse(response, 404, 'Cannot insert video!')
+      console.log(error);
+      miscHelper.customErrorResponse(response, 404, "Cannot insert video!");
+    }
+  },
+  readVideo: async (request, response) => {
+    try {
+      const video_id = request.params.video_id || null;
+      const search_title = request.query.video_title || "";
+      const search_category = request.query.video_category || "";
+      const sort_by = request.query.sort_by || "date_updated";
+      const order_by = request.query.order_by || "DESC";
+      const result = await videoModel.readVideo(
+        video_id,
+        search_title,
+        search_category,
+        sort_by,
+        order_by
+      );
+      miscHelper.customResponse(response, 200, result);
+    } catch (error) {
+      console.log(error);
+      miscHelper.customErrorResponse(response, 404, "Cannot read any video!");
     }
   },
 };
