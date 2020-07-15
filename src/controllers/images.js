@@ -24,4 +24,12 @@ module.exports = {
       filename,
     }),
   }).single("user_image"),
+  uploadAdsImages: multer({
+    storage: multer.diskStorage({
+      destination: function (request, file, callback) {
+        callback(null, "./assets/upload/images/ads");
+      },
+      filename,
+    }),
+  }).single("ads_image"),
 };

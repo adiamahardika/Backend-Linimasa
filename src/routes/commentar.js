@@ -1,5 +1,4 @@
 const express = require("express");
-
 const Route = express.Router();
 
 const { insertCommentar, readCommentar, updateCommentar, deleteCommentar } = require("../controllers/commentar");

@@ -5,6 +5,7 @@ const newsCategoryRouter = require("./news_category");
 const userRole = require("./user_role");
 const user = require("./user");
 const commentar = require("./commentar");
+const ads = require("./ads")
 Route
   .use("/news", newsRouter)
   .use("/assets/upload/images", express.static("./assets/upload/images"))
@@ -12,4 +13,5 @@ Route
   .use("/user-role", userRole)
   .use("/user", user)
   .use("/commentar", commentar)
+  .use("/ads", ads)
 module.exports = Route;
