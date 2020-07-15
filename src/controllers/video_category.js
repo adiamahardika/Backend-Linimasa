@@ -61,4 +61,20 @@ module.exports = {
       );
     }
   },
+  deleteVideoCategory: async (request, response) => {
+    try {
+      const video_category_id = request.params.video_category_id;
+      const result = await videoCategoryModel.deleteVideoCategory(
+        video_category_id
+      );
+      miscHelper.customResponse(response, 200, result);
+    } catch (error) {
+      console.log(error);
+      miscHelper.customErrorResponse(
+        response,
+        404,
+        "Cannot delete video category!"
+      );
+    }
+  },
 };
