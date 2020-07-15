@@ -53,4 +53,35 @@ module.exports = {
       miscHelper.customErrorResponse(response, 404, "Cannot read any video!");
     }
   },
+  updateVideo: async (request, response) => {
+    try {
+      const video_id = request.params.video_id;
+
+      if (!request.file || Object.keys(request.file).length === 0) {
+        const data = {
+          video_title: request.body.video_title,
+          video_description: request.body.video_description,
+          video_author: request.body.video_author,
+          video_category: request.body.video_category,
+          date_updated: new Date(),
+        };
+        const result = await videoModel.updateVideo(data, video_id);
+        miscHelper.customResponse(response, 200, result);
+      } else {
+        const data = {
+          video_title: request.body.video_title,
+          video: `http://${ip}/assets/upload/videos/${request.file.filename}`,
+          video_description: request.body.video_description,
+          video_author: request.body.video_author,
+          video_category: request.body.video_category,
+          date_updated: new Date(),
+        };
+        const result = await videoModel.updateVideo(data, video_id);
+        miscHelper.customResponse(response, 200, result);
+      }
+    } catch (error) {
+      console.log(error);
+      miscHelper.customErrorResponse(response, 404, "Cannot update video!");
+    }
+  },
 };
