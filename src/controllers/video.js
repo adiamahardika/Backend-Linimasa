@@ -2,14 +2,14 @@ const videoModel = require("../models/video");
 const miscHelper = require("../helpers");
 const uniqid = require("uniqid");
 const { ip } = require("../configs");
-const fs = require("fs").promises;
+const filesystem = require("fs").promises;
 
-const deleteFile = async (video_id) =>{
+const deleteFile = async (video_id) => {
   const checkId = await videoModel.checkId(video_id);
   const dataVideo = checkId[0];
-  const path = (dataVideo.video).replace(`http://${ip}`, `../backend_lensajabar`)
-      await fs.unlink(path);
-}
+  const path = dataVideo.video.replace(`http://${ip}`, `../backend_lensajabar`);
+  await filesystem.unlink(path);
+};
 module.exports = {
   insertVideo: async (request, response) => {
     try {
@@ -74,7 +74,7 @@ module.exports = {
         const result = await videoModel.updateVideo(data, video_id);
         miscHelper.customResponse(response, 200, result);
       } else {
-        await deleteFile(video_id)
+        await deleteFile(video_id);
         const data = {
           video_title: request.body.video_title,
           video: `http://${ip}/assets/upload/videos/${request.file.filename}`,
@@ -94,7 +94,7 @@ module.exports = {
   deleteVideo: async (request, response) => {
     try {
       const video_id = request.params.video_id;
-      await deleteFile(video_id)
+      await deleteFile(video_id);
       const result = await videoModel.deleteVideo(video_id);
       miscHelper.customResponse(response, 200, result);
     } catch (error) {

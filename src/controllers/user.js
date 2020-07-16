@@ -4,7 +4,22 @@ const uniqid = require("uniqid");
 const { ip, JWT_Key, JWT_Refresh } = require("../configs");
 const JWT = require("jsonwebtoken");
 const tokenList = {};
-const fs = require('fs').promises
+const filesystem = require("fs").promises;
+
+const deleteFile = async (user_id) => {
+  const checkId = await userModel.checkId(user_id);
+  const dataUser = checkId[0];
+  if (
+    dataUser.user_image !=
+    `http://localhost:5001/assets/upload/images/profile/default-profile-images.png`
+  ) {
+    const path = dataUser.user_image.replace(
+      `http://${ip}`,
+      `../backend_lensajabar`
+    );
+    await filesystem.unlink(path);
+  }
+};
 
 module.exports = {
   register: async (request, response) => {
@@ -18,7 +33,11 @@ module.exports = {
           user_salt
         );
         const user_name = request.body.user_name;
-        const id = user_name.toLowerCase().split(" ").join("-") + "-" + Date.now() + uniqid.process();
+        const id =
+          user_name.toLowerCase().split(" ").join("-") +
+          "-" +
+          Date.now() +
+          uniqid.process();
         if (!request.file || Object.keys(request.file).length === 0) {
           const data = {
             id,
@@ -148,7 +167,6 @@ module.exports = {
   updateUser: async (request, response) => {
     try {
       const user_id = request.params.user_id;
-
       if (!request.file || Object.keys(request.file).length === 0) {
         const data = {
           user_name: request.body.user_name,
@@ -162,6 +180,7 @@ module.exports = {
         const result = await userModel.updateUser(data, user_id);
         miscHelper.customResponse(response, 200, result);
       } else {
+        await deleteFile(user_id);
         const data = {
           user_name: request.body.user_name,
           user_email: request.body.user_email,
@@ -183,6 +202,7 @@ module.exports = {
   deleteUser: async (request, response) => {
     try {
       const user_id = request.params.user_id;
+      await deleteFile(user_id);
       const result = await userModel.deleteUser(user_id);
       miscHelper.customErrorResponse(response, 200, result);
     } catch (error) {

@@ -2,18 +2,17 @@ const newsModel = require("../models/news");
 const miscHelper = require("../helpers");
 const uniqid = require("uniqid");
 const { ip } = require("../configs");
-const fs = require("fs").promises
+const filesystem = require("fs").promises;
 
-const deleteFile = async (news_id) =>{
-  try {
-    const checkId = await newsModel.checkId(news_id);
-    const dataNews = checkId[0];
-    const path = (dataNews.news_image).replace(`http://${ip}`, `../backend_lensajabar`)
-    await fs.unlink(path); 
-  } catch (error) {
-    console.log(error)
-  }
-}
+const deleteFile = async (news_id) => {
+  const checkId = await newsModel.checkId(news_id);
+  const dataNews = checkId[0];
+  const path = dataNews.news_image.replace(
+    `http://${ip}`,
+    `../backend_lensajabar`
+  );
+  await filesystem.unlink(path);
+};
 module.exports = {
   insertNews: async (request, response) => {
     try {
@@ -80,7 +79,7 @@ module.exports = {
         const result = await newsModel.updateNews(data, news_id);
         miscHelper.customResponse(response, 200, result);
       } else {
-        await deleteFile(news_id)
+        await deleteFile(news_id);
         const data = {
           news_title: request.body.news_title,
           news_image: `http://${ip}/assets/upload/images/news/${request.file.filename}`,
@@ -101,7 +100,7 @@ module.exports = {
   deleteNews: async (request, response) => {
     try {
       const news_id = request.params.news_id;
-      await deleteFile(news_id)
+      await deleteFile(news_id);
       const result = await newsModel.deleteNews(news_id);
       miscHelper.customResponse(response, 200, result);
     } catch (error) {
