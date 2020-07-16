@@ -43,4 +43,25 @@ module.exports = {
       );
     }
   },
+  updateIklanBarisCategory: async (request, response) => {
+    try {
+      const iklan_baris_category_id = request.params.iklan_baris_category_id;
+      const data = {
+        iklan_baris_category_name: request.body.iklan_baris_category_name,
+        date_updated: new Date(),
+      };
+      const result = await iklanBarisCategoryModel.updateIklanBarisCategory(
+        data,
+        iklan_baris_category_id
+      );
+      miscHelper.customResponse(response, 200, result);
+    } catch (error) {
+      console.log(error);
+      miscHelper.customErrorResponse(
+        response,
+        404,
+        "Cannot update iklan baris category!"
+      );
+    }
+  },
 };

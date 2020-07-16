@@ -22,4 +22,16 @@ module.exports = {
       );
     });
   },
+  updateIklanBarisCategory: (data, iklan_baris_category_id) => {
+    return new Promise((resolve, reject) => {
+      connection.query(`UPDATE iklan_baris_category_table SET ? WHERE id = ?`, [
+        data,
+        iklan_baris_category_id,
+      ]);
+      connection.query(readQuery, (error, result) => {
+        if (error) reject(new Error(error));
+        resolve(result);
+      });
+    });
+  },
 };
