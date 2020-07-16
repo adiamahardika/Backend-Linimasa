@@ -47,14 +47,31 @@ module.exports = {
       const search_category = request.query.video_category || "";
       const sort_by = request.query.sort_by || "date_updated";
       const order_by = request.query.order_by || "DESC";
-      const result = await videoModel.readVideo(
-        video_id,
+      const total_data = await videoModel.countVideo(
         search_title,
         search_category,
         sort_by,
         order_by
       );
-      miscHelper.customResponse(response, 200, result);
+      const page = parseInt(request.query.page) || 1;
+      const limit = parseInt(request.query.limit) || 5;
+      const start_index = (page - 1) * limit;
+      const pagination = {
+        total_data,
+        page,
+        limit,
+        start_index,
+      };
+      const result = await videoModel.readVideo(
+        video_id,
+        search_title,
+        search_category,
+        sort_by,
+        order_by,
+        start_index,
+        limit
+      );
+      miscHelper.customResponsePagination(response, 200, result, pagination);
     } catch (error) {
       console.log(error);
       miscHelper.customErrorResponse(response, 404, "Cannot read any video!");

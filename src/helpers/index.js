@@ -26,7 +26,7 @@ module.exports = {
       }
     }
     if(start_index > 0) {
-      result.previous = {
+      result.previous_page = {
         page: page - 1,
         limit: limit
       }
