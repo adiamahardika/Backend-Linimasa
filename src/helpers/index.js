@@ -1,5 +1,4 @@
 const crypto = require("crypto");
-const { response } = require("express");
 
 module.exports = {
   customResponse: (response, status, data) => {
@@ -18,6 +17,7 @@ module.exports = {
     const end_index = page * limit
     
     result.status = status || 200
+    result.total_data = total_data
     result.total_pages = Math.ceil(total_data / limit)
     if (end_index < total_data){
       result.next_page = {

@@ -1,5 +1,5 @@
 const connection = require("../configs/mysql");
-const readQuery = `SELECT user_table.*, user_role_table.user_role_name FROM user_table LEFT JOIN user_role_table ON user_table.user_role = user_role_table.id`;
+const readQuery = `SELECT user_table.*, user_role_table.user_role_name FROM user_table LEFT JOIN user_role_table ON user_table.user_role = user_role_table.id ORDER BY user_name ASC`;
 module.exports = {
   register: (data) => {
     return new Promise((resolve, reject) => {
@@ -22,7 +22,15 @@ module.exports = {
       );
     });
   },
-  readUser: (user_id, search_user_name, search_role) => {
+  readUser: (
+    user_id,
+    search_user_name,
+    search_role,
+    sort_by,
+    order_by,
+    start_index,
+    limit
+  ) => {
     return new Promise((resolve, reject) => {
       if (user_id !== null) {
         connection.query(
@@ -35,7 +43,7 @@ module.exports = {
         );
       } else {
         connection.query(
-          `SELECT user_table.*, user_role_table.user_role_name FROM user_table LEFT JOIN user_role_table ON user_table.user_role = user_role_table.id WHERE user_table.user_name LIKE '%${search_user_name}%' AND user_table.user_role LIKE '%${search_role}%'`,
+          `SELECT user_table.*, user_role_table.user_role_name FROM user_table LEFT JOIN user_role_table ON user_table.user_role = user_role_table.id WHERE user_table.user_name LIKE '%${search_user_name}%' AND user_table.user_role LIKE '%${search_role}%' ORDER BY ${sort_by} ${order_by} LIMIT ${start_index}, ${limit}`,
           (error, result) => {
             if (error) reject(new Error(error));
             resolve(result);
@@ -72,6 +80,17 @@ module.exports = {
         if (error) reject(new Error(error));
         resolve(result);
       });
+    });
+  },
+  countUser: (search_user_name, search_role, sort_by, order_by) => {
+    return new Promise((resolve, reject) => {
+      connection.query(
+        `SELECT count(*) as total_data FROM user_table WHERE user_table.user_name LIKE '%${search_user_name}%' AND user_table.user_role LIKE '%${search_role}%' ORDER BY ${sort_by} ${order_by}`,
+        (error, result) => {
+          if (error) reject(new Error(error));
+          resolve(result[0].total_data);
+        }
+      );
     });
   },
 };

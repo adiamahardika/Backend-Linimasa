@@ -76,6 +76,7 @@ module.exports = {
       connection.query(
         `SELECT count(*) as total_data FROM news_table WHERE news_table.news_title LIKE '%${search_title}%' AND news_table.news_category LIKE '%${search_category}%' ORDER BY ${sort_by} ${order_by}`,
         (error, result) => {
+          if (error) reject(new Error(error));
           resolve(result[0].total_data);
         }
       );

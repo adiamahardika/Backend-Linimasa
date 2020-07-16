@@ -153,12 +153,33 @@ module.exports = {
       const user_id = request.params.user_id || null;
       const search_user_name = request.query.user_name || "";
       const search_role = request.query.user_role || "";
+      const sort_by = request.query.sort_by || "user_name";
+      const order_by = request.query.order_by || "ASC";
+      const total_data = await userModel.countUser(
+        search_user_name,
+        search_role,
+        sort_by,
+        order_by
+      );
+      const page = parseInt(request.query.page) || 1;
+      const limit = parseInt(request.query.limit) || 25;
+      const start_index = (page - 1) * limit;
+      const pagination = {
+        total_data,
+        page,
+        limit,
+        start_index
+      };
       const result = await userModel.readUser(
         user_id,
         search_user_name,
-        search_role
+        search_role,
+        sort_by,
+        order_by,
+        start_index,
+        limit
       );
-      miscHelper.customResponse(response, 200, result);
+      miscHelper.customResponsePagination(response, 200, result, pagination);
     } catch (error) {
       console.log(error);
       miscHelper.customErrorResponse(response, 404, "Cannot read any user!");
