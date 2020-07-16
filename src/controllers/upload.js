@@ -37,7 +37,11 @@ module.exports = {
       destination: (request, file, callback) => {
         callback(null, "./assets/upload/videos");
       },
-      filename,
+      filename: (request, file, callback) => {
+        let customFileName = Date.now() + crypto.randomBytes(6).toString("hex"),
+          fileExtension = file.originalname.split(".")[file.originalname.split('.').length -1];
+        callback(null, customFileName + "." + fileExtension);
+      },
     }),
   }).single("video"),
 };

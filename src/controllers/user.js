@@ -3,8 +3,8 @@ const miscHelper = require("../helpers");
 const uniqid = require("uniqid");
 const { ip, JWT_Key, JWT_Refresh } = require("../configs");
 const JWT = require("jsonwebtoken");
-const { request, response } = require("express");
 const tokenList = {};
+const fs = require('fs').promises
 
 module.exports = {
   register: async (request, response) => {

@@ -2,7 +2,14 @@ const newsModel = require("../models/news");
 const miscHelper = require("../helpers");
 const uniqid = require("uniqid");
 const { ip } = require("../configs");
+const fs = require("fs").promises
 
+const deleteFile = async (news_id) =>{
+  const checkId = await newsModel.checkId(news_id);
+  const dataNews = checkId[0];
+  const path = (dataNews.news_image).replace(`http://${ip}`, `../backend_lensajabar`)
+      await fs.unlink(path);
+}
 module.exports = {
   insertNews: async (request, response) => {
     try {
@@ -57,7 +64,6 @@ module.exports = {
   updateNews: async (request, response) => {
     try {
       const news_id = request.params.news_id;
-
       if (!request.file || Object.keys(request.file).length === 0) {
         const data = {
           news_title: request.body.news_title,
@@ -70,6 +76,7 @@ module.exports = {
         const result = await newsModel.updateNews(data, news_id);
         miscHelper.customResponse(response, 200, result);
       } else {
+        await deleteFile(news_id)
         const data = {
           news_title: request.body.news_title,
           news_image: `http://${ip}/assets/upload/images/${request.file.filename}`,

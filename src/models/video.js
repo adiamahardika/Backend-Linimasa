@@ -34,6 +34,18 @@ module.exports = {
       }
     });
   },
+  checkId: (video_id) => {
+    return new Promise((resolve, reject) => {
+      connection.query(
+        `SELECT * FROM video_table WHERE id = ?`,
+        video_id,
+        (error, result) => {
+          if (error) reject(new Error(error));
+          resolve(result);
+        }
+      );
+    });
+  },
   updateVideo: (data, video_id) => {
     return new Promise((resolve, reject) => {
       connection.query(`UPDATE video_table SET ? WHERE id = ?`, [
