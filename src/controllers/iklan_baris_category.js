@@ -1,6 +1,7 @@
 const iklanBarisCategoryModel = require("../models/iklan_baris_category");
 const miscHelper = require("../helpers");
 const uniqid = require("uniqid");
+const { request, response } = require("express");
 
 module.exports = {
   insertIklanBarisCategory: async (request, response) => {
@@ -22,6 +23,23 @@ module.exports = {
         response,
         404,
         "Cannot insert iklan baris category!"
+      );
+    }
+  },
+  readIklanBarisCategory: async (request, response) => {
+    try {
+      const search_iklan_baris_category_name =
+        request.query.iklan_baris_category_name || "";
+      const result = await iklanBarisCategoryModel.readIklanBarisCategory(
+        search_iklan_baris_category_name
+      );
+      miscHelper.customResponse(response, 200, result);
+    } catch (error) {
+      console.log(error);
+      miscHelper.customErrorResponse(
+        response,
+        404,
+        "Cannot read any iklan baris category!"
       );
     }
   },
