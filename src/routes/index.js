@@ -5,11 +5,12 @@ const newsCategoryRouter = require("./news_category");
 const userRole = require("./user_role");
 const user = require("./user");
 const commentar = require("./commentar");
-const ads = require("./ads")
-const videoCategory = require("./video_category")
-const video = require("./video")
-Route
-  .use("/news", newsRouter)
+const ads = require("./ads");
+const videoCategory = require("./video_category");
+const video = require("./video");
+const iklanBarisCategory = require("./iklan_baris_category");
+
+Route.use("/news", newsRouter)
   .use("/assets/upload/images", express.static("./assets/upload/images"))
   .use("/news-category", newsCategoryRouter)
   .use("/user-role", userRole)
@@ -19,4 +20,5 @@ Route
   .use("/video-category", videoCategory)
   .use("/video", video)
   .use("/assets/upload/videos", express.static("./assets/upload/videos"))
+  .use("/iklan-baris-category", iklanBarisCategory)
 module.exports = Route;
