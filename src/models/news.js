@@ -33,6 +33,18 @@ module.exports = {
       }
     });
   },
+  checkId: (news_id) => {
+    return new Promise((resolve, reject) => {
+      connection.query(
+        `SELECT * FROM news_table WHERE id = ?`,
+        news_id,
+        (error, result) => {
+          if (error) reject(new Error(error));
+          resolve(result);
+        }
+      );
+    });
+  },
   updateNews: (data, news_id) => {
     return new Promise((resolve, reject) => {
       connection.query("UPDATE news_table SET ? WHERE id = ?", [data, news_id]);
