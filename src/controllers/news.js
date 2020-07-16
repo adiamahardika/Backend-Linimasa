@@ -24,7 +24,6 @@ module.exports = {
           .split(" ")
           .join("-") +
         "-" +
-        Date.now() +
         uniqid.process();
       const data = {
         id,

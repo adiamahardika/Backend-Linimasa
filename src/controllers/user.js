@@ -36,7 +36,6 @@ module.exports = {
         const id =
           user_name.toLowerCase().split(" ").join("-") +
           "-" +
-          Date.now() +
           uniqid.process();
         if (!request.file || Object.keys(request.file).length === 0) {
           const data = {
