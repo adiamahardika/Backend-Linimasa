@@ -11,7 +11,7 @@ const deleteFile = async (user_id) => {
   const dataUser = checkId[0];
   if (
     dataUser.user_image !=
-    `http://localhost:5001/assets/upload/images/profile/default-profile-images.png`
+    `http://${ip}/assets/upload/images/profile/default-profile-images.png`
   ) {
     const path = dataUser.user_image.replace(
       `http://${ip}`,
