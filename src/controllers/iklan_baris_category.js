@@ -64,4 +64,20 @@ module.exports = {
       );
     }
   },
+  deleteIklanBarisCategory: async (request, response) => {
+    try {
+      const iklan_baris_category_id = request.params.iklan_baris_category_id;
+      result = await iklanBarisCategoryModel.deleteIklanBarisCategory(
+        iklan_baris_category_id
+      );
+      miscHelper.customErrorResponse(response, 200, result);
+    } catch (error) {
+      console.log(error);
+      miscHelper.customErrorResponse(
+        response,
+        404,
+        "Cannot delete iklan baris category!"
+      );
+    }
+  },
 };
