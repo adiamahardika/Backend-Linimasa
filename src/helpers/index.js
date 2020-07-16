@@ -1,4 +1,5 @@
 const crypto = require("crypto");
+const { response } = require("express");
 
 module.exports = {
   customResponse: (response, status, data) => {
@@ -7,6 +8,31 @@ module.exports = {
     result.status = status || 200;
     result.result = data;
     return response.status(result.status).json(result);
+  },
+  customResponsePagination: (response, status, data, pagination) => {
+    const result = {}
+    const page = pagination.page
+    const limit = pagination.limit
+    const total_data = pagination.total_data
+    const start_index = pagination.start_index
+    const end_index = page * limit
+    
+    result.status = status || 200
+    result.total_pages = Math.ceil(total_data / limit)
+    if (end_index < total_data){
+      result.next_page = {
+        page: page + 1,
+        limit: limit
+      }
+    }
+    if(start_index > 0) {
+      result.previous = {
+        page: page - 1,
+        limit: limit
+      }
+    }
+    result.result = data
+    return response.status(result.status).json(result)
   },
   customErrorResponse: (response, status, message) => {
     const result = {};
