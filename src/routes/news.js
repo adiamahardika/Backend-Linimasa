@@ -1,6 +1,5 @@
 const express = require("express");
 const Route = express.Router();
-
 const {
   insertNews,
   readNews,
@@ -8,8 +7,8 @@ const {
   deleteNews,
 } = require("../controllers/news");
 const { uploadNewsImages } = require("../controllers/upload");
-Route
-  .post("/", uploadNewsImages, insertNews)
+
+Route.post("/", uploadNewsImages, insertNews)
   .get("/", readNews)
   .get("/:news_id", readNews)
   .patch("/:news_id", uploadNewsImages, updateNews)

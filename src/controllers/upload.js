@@ -32,6 +32,14 @@ module.exports = {
       filename,
     }),
   }).single("ads_image"),
+  uploadIklanBarisImages: multer({
+    storage: multer.diskStorage({
+      destination: (request, file, callback) => {
+        callback(null, "./assets/upload/images/iklan_baris");
+      },
+      filename,
+    }),
+  }).single("iklan_baris_image"),
   uploadVideo: multer({
     storage: multer.diskStorage({
       destination: (request, file, callback) => {

@@ -9,9 +9,11 @@ const ads = require("./ads");
 const videoCategory = require("./video_category");
 const video = require("./video");
 const iklanBarisCategory = require("./iklan_baris_category");
+const iklanBaris = require("./iklan_baris");
 
-Route.use("/news", newsRouter)
-  .use("/assets/upload/images", express.static("./assets/upload/images"))
+Route.use("/assets/upload/images", express.static("./assets/upload/images"))
+  .use("/assets/upload/videos", express.static("./assets/upload/videos"))
+  .use("/news", newsRouter)
   .use("/news-category", newsCategoryRouter)
   .use("/user-role", userRole)
   .use("/user", user)
@@ -19,6 +21,6 @@ Route.use("/news", newsRouter)
   .use("/ads", ads)
   .use("/video-category", videoCategory)
   .use("/video", video)
-  .use("/assets/upload/videos", express.static("./assets/upload/videos"))
   .use("/iklan-baris-category", iklanBarisCategory)
+  .use("/iklan-baris", iklanBaris)
 module.exports = Route;
