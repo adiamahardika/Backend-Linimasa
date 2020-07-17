@@ -82,15 +82,26 @@ module.exports = {
       });
     });
   },
-  countUser: (search_user_name, search_role, sort_by, order_by) => {
+  countUser: (user_id, search_user_name, search_role, sort_by, order_by) => {
     return new Promise((resolve, reject) => {
-      connection.query(
-        `SELECT count(*) as total_data FROM user_table WHERE user_table.user_name LIKE '%${search_user_name}%' AND user_table.user_role LIKE '%${search_role}%' ORDER BY ${sort_by} ${order_by}`,
-        (error, result) => {
-          if (error) reject(new Error(error));
-          resolve(result[0].total_data);
-        }
-      );
+      if (user_id !== null) {
+        connection.query(
+          `SELECT count(*) as total_data FROM user_table WHERE user_table.id = ?`,
+          user_id,
+          (error, result) => {
+            if (error) reject(new Error(error));
+            resolve(result[0].total_data);
+          }
+        );
+      } else {
+        connection.query(
+          `SELECT count(*) as total_data FROM user_table WHERE user_table.user_name LIKE '%${search_user_name}%' AND user_table.user_role LIKE '%${search_role}%' ORDER BY ${sort_by} ${order_by}`,
+          (error, result) => {
+            if (error) reject(new Error(error));
+            resolve(result[0].total_data);
+          }
+        );
+      }
     });
   },
 };
