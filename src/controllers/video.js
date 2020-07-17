@@ -7,8 +7,13 @@ const filesystem = require("fs").promises;
 const deleteFile = async (video_id) => {
   const checkId = await videoModel.checkId(video_id);
   const dataVideo = checkId[0];
-  const path = dataVideo.video.replace(`http://${ip}`, `../backend_lensajabar`);
-  await filesystem.unlink(path);
+  if (dataVideo !== undefined) {
+    const path = dataVideo.video.replace(
+      `http://${ip}`,
+      `../backend_lensajabar`
+    );
+    await filesystem.unlink(path);
+  }
 };
 module.exports = {
   insertVideo: async (request, response) => {
@@ -47,6 +52,7 @@ module.exports = {
       const sort_by = request.query.sort_by || "date_updated";
       const order_by = request.query.order_by || "DESC";
       const total_data = await videoModel.countVideo(
+        video_id,
         search_title,
         search_category,
         sort_by,

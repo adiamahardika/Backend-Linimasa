@@ -75,15 +75,26 @@ module.exports = {
       });
     });
   },
-  countVideo: (search_title, search_category, sort_by, order_by) => {
+  countVideo: (video_id, search_title, search_category, sort_by, order_by) => {
     return new Promise((resolve, reject) => {
-      connection.query(
-        `SELECT count(*) as total_data FROM video_table WHERE video_table.video_title LIKE '%${search_title}%' AND video_table.video_category LIKE '%${search_category}%' ORDER BY ${sort_by} ${order_by}`,
-        (error, result) => {
-          if (error) reject(new Error(error));
-          resolve(result[0].total_data);
-        }
-      );
+      if (video_id !== null) {
+        connection.query(
+          `SELECT count(*) as total_data FROM video_table WHERE video_table.id = ?`,
+          video_id,
+          (error, result) => {
+            if (error) reject(new Error(error));
+            resolve(result[0].total_data);
+          }
+        );
+      } else {
+        connection.query(
+          `SELECT count(*) as total_data FROM video_table WHERE video_table.video_title LIKE '%${search_title}%' AND video_table.video_category LIKE '%${search_category}%' ORDER BY ${sort_by} ${order_by}`,
+          (error, result) => {
+            if (error) reject(new Error(error));
+            resolve(result[0].total_data);
+          }
+        );
+      }
     });
   },
 };
