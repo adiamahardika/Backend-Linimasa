@@ -2,7 +2,6 @@ const iklanBarisModel = require("../models/iklan_baris");
 const miscHelper = require("../helpers");
 const uniqid = require("uniqid");
 const { ip } = require("../configs");
-const { error } = require("console");
 const filesystem = require("fs").promises;
 
 const deleteFile = async (iklan_baris_id) => {
@@ -13,7 +12,7 @@ const deleteFile = async (iklan_baris_id) => {
       `http://${ip}`,
       `../backend_lensajabar`
     );
-        await filesystem.unlink(path);
+    await filesystem.unlink(path);
   }
 };
 module.exports = {

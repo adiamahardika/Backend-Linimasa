@@ -7,11 +7,13 @@ const filesystem = require("fs").promises;
 const deleteFile = async (news_id) => {
   const checkId = await newsModel.checkId(news_id);
   const dataNews = checkId[0];
-  const path = dataNews.news_image.replace(
-    `http://${ip}`,
-    `../backend_lensajabar`
-  );
-  await filesystem.unlink(path);
+  if (dataNews !== undefined){
+    const path = dataNews.news_image.replace(
+      `http://${ip}`,
+      `../backend_lensajabar`
+    );
+    await filesystem.unlink(path);
+  }
 };
 module.exports = {
   insertNews: async (request, response) => {
@@ -50,8 +52,9 @@ module.exports = {
       const search_category = request.query.news_category || "";
       const sort_by = request.query.sort_by || "date_updated";
       const order_by = request.query.order_by || "DESC";
-      const total_data = await newsModel.countNews(search_title,
+      const total_data = await newsModel.countNews(
         news_id,
+        search_title,
         search_category,
         sort_by,
         order_by)
