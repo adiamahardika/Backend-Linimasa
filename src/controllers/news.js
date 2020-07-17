@@ -51,6 +51,7 @@ module.exports = {
       const sort_by = request.query.sort_by || "date_updated";
       const order_by = request.query.order_by || "DESC";
       const total_data = await newsModel.countNews(search_title,
+        news_id,
         search_category,
         sort_by,
         order_by)

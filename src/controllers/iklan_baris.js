@@ -43,4 +43,46 @@ module.exports = {
       );
     }
   },
+  readIklanBaris: async (request, response) => {
+    try {
+      const iklan_baris_id = request.params.iklan_baris_id || null;
+      const search_title = request.query.iklan_baris_title || "";
+      const search_category = request.query.iklan_baris_category || "";
+      const sort_by = request.query.sort_by || "date_updated";
+      const order_by = request.query.order_by || "DESC";
+      const total_data = await iklanBarisModel.countIklanBaris(
+        iklan_baris_id,
+        search_title,
+        search_category,
+        sort_by,
+        order_by
+      );
+      const page = parseInt(request.query.page) || 1;
+      const limit = parseInt(request.query.limit) || 4;
+      const start_index = (page - 1) * limit;
+      const pagination = {
+        total_data,
+        page,
+        limit,
+        start_index,
+      };
+      const result = await iklanBarisModel.readIklanBaris(
+        iklan_baris_id,
+        search_title,
+        search_category,
+        sort_by,
+        order_by,
+        start_index,
+        limit
+      );
+      miscHelper.customResponsePagination(response, 200, result, pagination);
+    } catch (error) {
+      console.log(error);
+      miscHelper.customErrorResponse(
+        response,
+        404,
+        "Cannot read any iklan baris!"
+      );
+    }
+  },
 };
