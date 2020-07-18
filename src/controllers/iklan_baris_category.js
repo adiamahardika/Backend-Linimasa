@@ -1,7 +1,6 @@
 const iklanBarisCategoryModel = require("../models/iklan_baris_category");
 const miscHelper = require("../helpers");
 const uniqid = require("uniqid");
-const { request, response } = require("express");
 
 module.exports = {
   insertIklanBarisCategory: async (request, response) => {
