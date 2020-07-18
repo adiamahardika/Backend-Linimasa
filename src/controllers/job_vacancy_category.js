@@ -63,4 +63,20 @@ module.exports = {
       );
     }
   },
+  deleteJobVacancyCategory: async (request, response) => {
+    try {
+      const job_vacancy_category_id = request.params.job_vacancy_category_id;
+      const result = await jobVacancyCategoryModel.deleteJobVacancyCategory(
+        job_vacancy_category_id
+      );
+      miscHelper.customResponse(response, 200, result);
+    } catch (error) {
+      console.log(error);
+      miscHelper.customErrorResponse(
+        response,
+        404,
+        "Cannot delete job vacancy category!"
+      );
+    }
+  },
 };

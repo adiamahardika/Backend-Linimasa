@@ -34,4 +34,16 @@ module.exports = {
       });
     });
   },
+  deleteJobVacancyCategory: (job_vacancy_category_id) => {
+    return new Promise((resolve, reject) => {
+      connection.query(
+        `DELETE FROM job_vacancy_category_table WHERE id = ?`,
+        job_vacancy_category_id
+      );
+      connection.query(readQuery, (error, result) => {
+        if (error) reject(new Error(error));
+        resolve(result);
+      });
+    });
+  },
 };
