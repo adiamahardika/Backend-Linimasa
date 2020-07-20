@@ -11,6 +11,7 @@ const video = require("./video");
 const iklanBarisCategory = require("./iklan_baris_category");
 const iklanBaris = require("./iklan_baris");
 const jobVacancyCategory = require("./job_vacancy_category")
+const jobVacancy = require("./job_vacancy")
 
 Route.use("/assets/upload/images", express.static("./assets/upload/images"))
   .use("/assets/upload/videos", express.static("./assets/upload/videos"))
@@ -25,4 +26,5 @@ Route.use("/assets/upload/images", express.static("./assets/upload/images"))
   .use("/iklan-baris-category", iklanBarisCategory)
   .use("/iklan-baris", iklanBaris)
   .use("/job-vacancy-category", jobVacancyCategory)
+  .use("/job-vacancy", jobVacancy)
 module.exports = Route;
