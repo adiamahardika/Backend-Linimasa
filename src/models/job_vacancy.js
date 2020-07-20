@@ -71,4 +71,28 @@ module.exports = {
       }
     });
   },
+  updateJobVacancy: (data, job_vacancy_id) => {
+    return new Promise((resolve, reject) => {
+      connection.query(`UPDATE job_vacancy_table SET ? WHERE id = ?`, [
+        data,
+        job_vacancy_id,
+      ]);
+      connection.query(readQuery, (error, result) => {
+        if (error) reject(new Error(error));
+        resolve(result);
+      });
+    });
+  },
+  deleteJobVacancy: (job_vacancy_id) => {
+    return new Promise((resolve, reject) => {
+      connection.query(
+        `DELETE FROM job_vacancy_table WHERE id = ?`,
+        job_vacancy_id
+      );
+      connection.query(readQuery, (error, result) => {
+        if (error) reject(new Error(error));
+        resolve(result);
+      });
+    });
+  },
 };
