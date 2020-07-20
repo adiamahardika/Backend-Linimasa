@@ -71,15 +71,26 @@ module.exports = {
       });
     });
   },
-  countNews: (search_title, search_category, sort_by, order_by) => {
+  countNews: (news_id, search_title, search_category, sort_by, order_by) => {
     return new Promise((resolve, reject) => {
-      connection.query(
-        `SELECT count(*) as total_data FROM news_table WHERE news_table.news_title LIKE '%${search_title}%' AND news_table.news_category LIKE '%${search_category}%' ORDER BY ${sort_by} ${order_by}`,
-        (error, result) => {
-          if (error) reject(new Error(error));
-          resolve(result[0].total_data);
-        }
-      );
+      if (news_id !== null) {
+        connection.query(
+          `SELECT count(*) as total_data FROM news_table WHERE news_table.id = ?`,
+          news_id,
+          (error, result) => {
+            if (error) reject(new Error(error));
+            resolve(result[0].total_data);
+          }
+        );
+      } else {
+        connection.query(
+          `SELECT count(*) as total_data FROM news_table WHERE news_table.news_title LIKE '%${search_title}%' AND news_table.news_category LIKE '%${search_category}%' ORDER BY ${sort_by} ${order_by}`,
+          (error, result) => {
+            if (error) reject(new Error(error));
+            resolve(result[0].total_data);
+          }
+        );
+      }
     });
   },
 };

@@ -106,6 +106,11 @@ module.exports = {
 
         delete dataUser.user_salt;
         delete dataUser.user_password;
+        delete dataUser.user_image;
+        delete dataUser.user_birth_date;
+        delete dataUser.user_points;
+        delete dataUser.user_phone_number
+        
 
         dataUser.token = token;
         dataUser.refreshToken = refreshToken;
@@ -155,6 +160,7 @@ module.exports = {
       const sort_by = request.query.sort_by || "user_name";
       const order_by = request.query.order_by || "ASC";
       const total_data = await userModel.countUser(
+        user_id,
         search_user_name,
         search_role,
         sort_by,

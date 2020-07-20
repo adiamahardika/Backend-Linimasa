@@ -1,7 +1,6 @@
 const iklanBarisCategoryModel = require("../models/iklan_baris_category");
 const miscHelper = require("../helpers");
 const uniqid = require("uniqid");
-const { request, response } = require("express");
 
 module.exports = {
   insertIklanBarisCategory: async (request, response) => {
@@ -67,7 +66,7 @@ module.exports = {
   deleteIklanBarisCategory: async (request, response) => {
     try {
       const iklan_baris_category_id = request.params.iklan_baris_category_id;
-      result = await iklanBarisCategoryModel.deleteIklanBarisCategory(
+      const result = await iklanBarisCategoryModel.deleteIklanBarisCategory(
         iklan_baris_category_id
       );
       miscHelper.customErrorResponse(response, 200, result);
