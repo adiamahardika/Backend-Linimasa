@@ -11,6 +11,18 @@ module.exports = {
       });
     });
   },
+  checkNewsCategoryName: (news_category_name) => {
+    return new Promise((resolve, reject) => {
+      connection.query(
+        `SELECT * FROM news_category_table WHERE news_category_name = ?`,
+        news_category_name,
+        (error, result) => {
+          if (error) reject(new Error(error));
+          resolve(result);
+        }
+      );
+    });
+  },
   readNewsCategory: (search_news_category_name) => {
     return new Promise((resolve, reject) => {
       connection.query(
