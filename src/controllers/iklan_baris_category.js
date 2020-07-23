@@ -82,7 +82,7 @@ module.exports = {
       const result = await iklanBarisCategoryModel.deleteIklanBarisCategory(
         iklan_baris_category_id
       );
-      miscHelper.customErrorResponse(response, 200, result);
+      miscHelper.customResponse(response, 200, result);
     } catch (error) {
       console.log(error);
       miscHelper.customErrorResponse(
