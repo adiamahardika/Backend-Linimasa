@@ -24,7 +24,7 @@ module.exports = {
         miscHelper.customErrorResponse(
           response,
           404,
-          "This news category has already in databse!"
+          "This news category has already in database!"
         );
       }
     } catch (error) {

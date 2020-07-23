@@ -11,6 +11,18 @@ module.exports = {
       });
     });
   },
+  checkJobVacancyCategoryName: (job_vacancy_category_name) => {
+    return new Promise((resolve, reject) => {
+      connection.query(
+        `SELECT * FROM job_vacancy_category_table WHERE job_vacancy_category_name = ?`,
+        job_vacancy_category_name,
+        (error, result) => {
+          if (error) reject(new Error(error));
+          resolve(result);
+        }
+      );
+    });
+  },
   readJobVacancyCategory: (search_job_vacancy_category_name) => {
     return new Promise((resolve, reject) => {
       connection.query(

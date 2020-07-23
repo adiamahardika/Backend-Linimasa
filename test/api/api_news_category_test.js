@@ -56,20 +56,14 @@ describe("News Category API", () => {
             .request(api)
             .get("/")
             .end((error, response) => {
-              let index = getIndex(response.body.result);
               expect(response.body).to.be.a("Object");
               expect(response.body).to.have.status(200);
               expect(response.body)
                 .to.have.property("result")
-                
-              expect(response.body.result).to.have.lengthOf(
-                response.body.result.length
-              );
               done();
             });
       }),
         it("It should GET search news category name", (done) => {
-          checkNewsCategoryName(data.news_category_name);
           chai
             .request(api)
             .get(`/?search_category_name=${data.news_category_name}`)
@@ -79,7 +73,6 @@ describe("News Category API", () => {
               expect(response.body).to.have.status(200);
               expect(response.body)
                 .to.have.property("result")
-                
               expect(response.body.result[index])
                 .to.have.property("id")
                 .equal(global[0].id);
