@@ -5,17 +5,30 @@ const uniqid = require("uniqid");
 module.exports = {
   insertJobVacancyCategory: async (request, response) => {
     try {
-      const id = uniqid.time();
-      const data = {
-        id,
-        job_vacancy_category_name: request.body.job_vacancy_category_name,
-        date_created: new Date(),
-        date_updated: new Date(),
-      };
-      const result = await jobVacancyCategoryModel.insertJobVacancyCategory(
-        data
+      const job_vacancy_category_name = request.body.job_vacancy_category_name;
+      const jobVacancyCategoryValid = await jobVacancyCategoryModel.checkJobVacancyCategoryName(
+        job_vacancy_category_name
       );
-      miscHelper.customResponse(response, 200, result);
+      const dataJobVacancyCategory = jobVacancyCategoryValid[0];
+      if (dataJobVacancyCategory === undefined) {
+        const id = uniqid.time();
+        const data = {
+          id,
+          job_vacancy_category_name,
+          date_created: new Date(),
+          date_updated: new Date(),
+        };
+        const result = await jobVacancyCategoryModel.insertJobVacancyCategory(
+          data
+        );
+        miscHelper.customResponse(response, 200, result);
+      } else {
+        miscHelper.customErrorResponse(
+          response,
+          404,
+          "This job vacancy category has already in database!"
+        );
+      }
     } catch (error) {
       console.log(error);
       miscHelper.customErrorResponse(

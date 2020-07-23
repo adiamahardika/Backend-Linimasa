@@ -5,15 +5,28 @@ const uniqid = require("uniqid");
 module.exports = {
   insertNewsCategory: async (request, response) => {
     try {
-      const id = uniqid.time();
-      const data = {
-        id,
-        news_category_name: request.body.news_category_name,
-        date_created: new Date(),
-        date_updated: new Date(),
-      };
-      const result = await categoryModel.insertNewsCategory(data);
-      miscHelper.customResponse(response, 200, result);
+      const news_category_name = request.body.news_category_name;
+      const newsCategoryValid = await categoryModel.checkNewsCategoryName(
+        news_category_name
+      );
+      const dataNewsCategory = newsCategoryValid[0];
+      if (dataNewsCategory === undefined) {
+        const id = uniqid.time();
+        const data = {
+          id,
+          news_category_name,
+          date_created: new Date(),
+          date_updated: new Date(),
+        };
+        const result = await categoryModel.insertNewsCategory(data);
+        miscHelper.customResponse(response, 200, result);
+      } else {
+        miscHelper.customErrorResponse(
+          response,
+          404,
+          "This news category has already in database!"
+        );
+      }
     } catch (error) {
       console.log(error);
       miscHelper.customErrorResponse(
