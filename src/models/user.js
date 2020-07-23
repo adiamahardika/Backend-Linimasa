@@ -99,6 +99,7 @@ module.exports = {
           (error, result) => {
             if (error) reject(new Error(error));
             resolve(result[0].total_data);
+            
           }
         );
       }
