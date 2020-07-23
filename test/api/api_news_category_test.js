@@ -3,23 +3,23 @@ const { ip } = require("../../src/configs/index");
 const chai = require("chai");
 const chaiHttp = require("chai-http");
 const expect = require("chai").expect;
-const chaiaspromise = require("chai-as-promised");
 
 chai.use(chaiHttp);
-chai.use(chaiaspromise);
 
-let x = {};
+let global = {};
 const api = `${ip}/news-category`;
 const checkNewsCategoryName = (news_category_name) => {
   connection.query(
     `SELECT * FROM news_category_table WHERE news_category_name = ?`,
     news_category_name,
     (error, result) => {
-      return (x[0] = result[0]);
+      return (global[0] = result[0]);
     }
   );
 };
-
+const getIndex = (result) => {
+  return result.findIndex(x => x.id === global[0].id)
+}
 const data = {
   news_category_name: "aaaaa",
 };
@@ -27,13 +27,6 @@ const newData = {
   news_category_name: "aaaaaaaaaa",
 };
 
-describe("connection", () => {
-  beforeEach((done) => {
-    connection.remove({}, (error) => {
-      done();
-    });
-  });
-});
 describe("News Category API", () => {
   describe("/POST news category", () => {
     it("It should POST a new news category", (done) => {
@@ -61,76 +54,80 @@ describe("News Category API", () => {
             .request(api)
             .get("/")
             .end((error, response) => {
+              let index = getIndex(response.body.result)
               expect(response.body).to.have.status(200);
               expect(response.body).to.have.property("result");
-              expect(response.body.result[0]).to.have.property("id");
-              expect(response.body.result[0])
+              expect(response.body.result[index]).to.have.property("id");
+              expect(response.body.result[index])
                 .to.have.property("news_category_name")
-              expect(response.body.result[0]).to.have.property("date_created");
-              expect(response.body.result[0]).to.have.property("date_updated");
+              expect(response.body.result[index]).to.have.property("date_created");
+              expect(response.body.result[index]).to.have.property("date_updated");
               done();
             });
       }),
-        it("It should GET search news category name", (done) => {
-          checkNewsCategoryName(data.news_category_name),
+        it("It should GET search news category name", async() => {
+          checkNewsCategoryName(data.news_category_name)
+          const id = await global[0].id;
             chai
               .request(api)
               .get(`/?search_category_name=${data.news_category_name}`)
               .end((error, response) => {
+                let index = getIndex(response.body.result)
                 expect(response.body).to.have.status(200);
                 expect(response.body).to.have.property("result");
-                expect(response.body.result[0]).to.have.property("id");
-                expect(response.body.result[0])
+                expect(response.body.result[index]).to.have.property("id");
+                expect(response.body.result[index])
                   .to.have.property("news_category_name")
                   .equal(data.news_category_name);
-                expect(response.body.result[0]).to.have.property(
+                expect(response.body.result[index]).to.have.property(
                   "date_created"
                 );
-                expect(response.body.result[0]).to.have.property(
+                expect(response.body.result[index]).to.have.property(
                   "date_updated"
                 );
-                done();
               });
         }),
         it("It should GET detail news category", async () => {
-          const id = await x[0].id;
+          const id = await global[0].id;
           chai
             .request(api)
             .patch("/" + id)
             .end((error, response) => {
+              let index = getIndex(response.body.result)
               expect(response.body).to.have.status(200);
               expect(response.body).to.have.property("result");
-              expect(response.body.result[0]).to.have.property("id");
-              expect(response.body.result[0]).to.have.property(
+              expect(response.body.result[index]).to.have.property("id");
+              expect(response.body.result[index]).to.have.property(
                 "news_category_name"
-              );
-              expect(response.body.result[0]).to.have.property("date_created");
-              expect(response.body.result[0]).to.have.property("date_updated");
+              ).equal(data.news_category_name);
+              expect(response.body.result[index]).to.have.property("date_created");
+              expect(response.body.result[index]).to.have.property("date_updated");
             });
         });
     }),
     describe("/PATCH news category", () => {
       it("It should PATCH news category", async () => {
-        const id = await x[0].id;
+        const id = await global[0].id;
         chai
           .request(api)
           .patch("/" + id)
           .send(newData)
           .end((error, response) => {
+            let index = getIndex(response.body.result)
             expect(response.body).to.have.status(200);
             expect(response.body).to.have.property("result");
-            expect(response.body.result[0]).to.have.property("id");
-            expect(response.body.result[0])
+            expect(response.body.result[index]).to.have.property("id");
+            expect(response.body.result[index])
               .to.have.property("news_category_name")
               .equal(newData.news_category_name);
-            expect(response.body.result[0]).to.have.property("date_created");
-            expect(response.body.result[0]).to.have.property("date_updated");
+            expect(response.body.result[index]).to.have.property("date_created");
+            expect(response.body.result[index]).to.have.property("date_updated");
           });
       });
     }),
     describe("/DELETE news category", () => {
       it("It should DELETE news category", async () => {
-        const id = await x[0].id;
+        const id = await global[0].id;
         chai
           .request(api)
           .delete("/" + id)
