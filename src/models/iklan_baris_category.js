@@ -11,6 +11,18 @@ module.exports = {
       });
     });
   },
+  checkIklanBarisCategory: (iklan_baris_category_name) => {
+    return new Promise((resolve, reject) => {
+      connection.query(
+        `SELECT * FROM iklan_baris_category_table WHERE iklan_baris_category_name = ?`,
+        iklan_baris_category_name,
+        (error, result) => {
+          if (error) reject(new Error(error));
+          resolve(result);
+        }
+      );
+    });
+  },
   readIklanBarisCategory: (search_iklan_baris_category_name) => {
     return new Promise((resolve, reject) => {
       connection.query(

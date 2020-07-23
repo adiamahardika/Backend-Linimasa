@@ -5,17 +5,30 @@ const uniqid = require("uniqid");
 module.exports = {
   insertIklanBarisCategory: async (request, response) => {
     try {
-      const id = uniqid.time();
-      const data = {
-        id,
-        iklan_baris_category_name: request.body.iklan_baris_category_name,
-        date_created: new Date(),
-        date_updated: new Date(),
-      };
-      const result = await iklanBarisCategoryModel.insertIklanBarisCategory(
-        data
+      const iklan_baris_category_name = request.body.iklan_baris_category_name;
+      const iklanBarisCategoryValid = await iklanBarisCategoryModel.checkIklanBarisCategory(
+        iklan_baris_category_name
       );
-      miscHelper.customResponse(response, 200, result);
+      const dataIklanBarisCategory = iklanBarisCategoryValid[0];
+      if (dataIklanBarisCategory === undefined) {
+        const id = uniqid.time();
+        const data = {
+          id,
+          iklan_baris_category_name,
+          date_created: new Date(),
+          date_updated: new Date(),
+        };
+        const result = await iklanBarisCategoryModel.insertIklanBarisCategory(
+          data
+        );
+        miscHelper.customResponse(response, 200, result);
+      } else {
+        miscHelper.customErrorResponse(
+          response,
+          404,
+          "This iklan baris category has already in database!"
+        );
+      }
     } catch (error) {
       console.log(error);
       miscHelper.customErrorResponse(

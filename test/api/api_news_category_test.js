@@ -3,7 +3,7 @@ const { ip } = require("../../src/configs/index");
 const chai = require("chai");
 const chaiHttp = require("chai-http");
 const expect = require("chai").expect;
-
+const faker = require("faker");
 chai.use(chaiHttp);
 
 let global = {};
@@ -18,13 +18,13 @@ const checkNewsCategoryName = (news_category_name) => {
   );
 };
 const getIndex = (result) => {
-  return result.findIndex(x => x.id === global[0].id)
-}
+  return result.findIndex((x) => x.id === global[0].id);
+};
 const data = {
-  news_category_name: "aaaaa",
+  news_category_name: faker.random.word(),
 };
 const newData = {
-  news_category_name: "aaaaaaaaaa",
+  news_category_name: faker.random.word(),
 };
 
 describe("News Category API", () => {
@@ -54,54 +54,41 @@ describe("News Category API", () => {
             .request(api)
             .get("/")
             .end((error, response) => {
-              let index = getIndex(response.body.result)
-              expect(response.body).to.have.status(200);
-              expect(response.body).to.have.property("result");
-              expect(response.body.result[index]).to.have.property("id");
-              expect(response.body.result[index])
-                .to.have.property("news_category_name")
-              expect(response.body.result[index]).to.have.property("date_created");
-              expect(response.body.result[index]).to.have.property("date_updated");
-              done();
-            });
-      }),
-        it("It should GET search news category name", async() => {
-          checkNewsCategoryName(data.news_category_name)
-          const id = await global[0].id;
-            chai
-              .request(api)
-              .get(`/?search_category_name=${data.news_category_name}`)
-              .end((error, response) => {
-                let index = getIndex(response.body.result)
-                expect(response.body).to.have.status(200);
-                expect(response.body).to.have.property("result");
-                expect(response.body.result[index]).to.have.property("id");
-                expect(response.body.result[index])
-                  .to.have.property("news_category_name")
-                  .equal(data.news_category_name);
-                expect(response.body.result[index]).to.have.property(
-                  "date_created"
-                );
-                expect(response.body.result[index]).to.have.property(
-                  "date_updated"
-                );
-              });
-        }),
-        it("It should GET detail news category", async () => {
-          const id = await global[0].id;
-          chai
-            .request(api)
-            .patch("/" + id)
-            .end((error, response) => {
-              let index = getIndex(response.body.result)
+              let index = getIndex(response.body.result);
               expect(response.body).to.have.status(200);
               expect(response.body).to.have.property("result");
               expect(response.body.result[index]).to.have.property("id");
               expect(response.body.result[index]).to.have.property(
                 "news_category_name"
-              ).equal(data.news_category_name);
-              expect(response.body.result[index]).to.have.property("date_created");
-              expect(response.body.result[index]).to.have.property("date_updated");
+              );
+              expect(response.body.result[index]).to.have.property(
+                "date_created"
+              );
+              expect(response.body.result[index]).to.have.property(
+                "date_updated"
+              );
+              done();
+            });
+      }),
+        it("It should GET search news category name", async () => {
+          checkNewsCategoryName(data.news_category_name);
+          chai
+            .request(api)
+            .get(`/?search_category_name=${data.news_category_name}`)
+            .end((error, response) => {
+              let index = getIndex(response.body.result);
+              expect(response.body).to.have.status(200);
+              expect(response.body).to.have.property("result");
+              expect(response.body.result[index]).to.have.property("id");
+              expect(response.body.result[index])
+                .to.have.property("news_category_name")
+                .equal(data.news_category_name);
+              expect(response.body.result[index]).to.have.property(
+                "date_created"
+              );
+              expect(response.body.result[index]).to.have.property(
+                "date_updated"
+              );
             });
         });
     }),
@@ -113,15 +100,19 @@ describe("News Category API", () => {
           .patch("/" + id)
           .send(newData)
           .end((error, response) => {
-            let index = getIndex(response.body.result)
+            let index = getIndex(response.body.result);
             expect(response.body).to.have.status(200);
             expect(response.body).to.have.property("result");
             expect(response.body.result[index]).to.have.property("id");
             expect(response.body.result[index])
               .to.have.property("news_category_name")
               .equal(newData.news_category_name);
-            expect(response.body.result[index]).to.have.property("date_created");
-            expect(response.body.result[index]).to.have.property("date_updated");
+            expect(response.body.result[index]).to.have.property(
+              "date_created"
+            );
+            expect(response.body.result[index]).to.have.property(
+              "date_updated"
+            );
           });
       });
     }),

@@ -11,10 +11,7 @@ module.exports = {
       );
       const dataNewsCategory = newsCategoryValid[0];
       if (dataNewsCategory === undefined) {
-        const id =
-          news_category_name.toLowerCase().split(" ").join("-") +
-          "-" +
-          uniqid.time();
+        const id = uniqid.time();
         const data = {
           id,
           news_category_name,
