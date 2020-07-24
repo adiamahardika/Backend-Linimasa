@@ -66,7 +66,7 @@ describe("News Category API", () => {
         it("It should GET search news category name", (done) => {
           chai
             .request(api)
-            .get(`/?search_category_name=${data.news_category_name}`)
+            .get(`/?news_category_name=${data.news_category_name}`)
             .end((error, response) => {
               let index = getIndex(response.body.result);
               expect(response.body).to.be.a("Object");

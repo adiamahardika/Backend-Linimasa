@@ -65,7 +65,7 @@ describe("Job Vacancy Category API", () => {
         it("It should GET search job vacancy category name", (done) => {
           chai
             .request(api)
-            .get("/")
+            .get(`/?job_vacancy_category_name=${data.job_vacancy_category_name}`)
             .end((error, response) => {
               let index = getIndex(response.body.result);
               expect(response.body).to.be.a("Object");
