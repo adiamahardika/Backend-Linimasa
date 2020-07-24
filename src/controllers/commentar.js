@@ -25,7 +25,7 @@ module.exports = {
     try {
       const data = {
       commentar_id : request.params.commentar_id || null,
-      search_user_name : request.query.user_name || "",
+      search_user_id : request.query.user_id || "",
       search_news_id : request.query.news_id || "",
       search_commentar : request.query.commentar || ""
       }
