@@ -11,6 +11,18 @@ module.exports = {
       });
     });
   },
+  checkUserRoleName: (user_role_name) => {
+    return new Promise((resolve, reject) => {
+      connection.query(
+        `SELECT * FROM user_role_table WHERE user_role_name = ?`,
+        user_role_name,
+        (error, result) => {
+          if (error) reject(new Error(error));
+          resolve(result);
+        }
+      );
+    });
+  },
   readUserRole: (search_user_role) => {
     return new Promise((resolve, reject) => {
       connection.query(
