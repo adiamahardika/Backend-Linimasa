@@ -11,6 +11,18 @@ module.exports = {
       });
     });
   },
+  checkVideoCategoryName: (video_category_name) => {
+    return new Promise((resolve, reject) => {
+      connection.query(
+        `SELECT * FROM video_category_table WHERE video_category_name = ?`,
+        video_category_name,
+        (error, result) => {
+          if (error) reject(new Error(error));
+          resolve(result);
+        }
+      );
+    });
+  },
   readVideoCategory: (search_video_category_name) => {
     return new Promise((resolve, reject) => {
       connection.query(
