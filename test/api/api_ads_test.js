@@ -46,6 +46,7 @@ describe("Ads API", () => {
         .end((error, response) => {
           expect(response.body).to.be.a("Object");
           expect(response.body).to.have.status(200);
+          expect(response.body).to.have.property("result");
           expect(response.body.result[0]).to.have.property("id");
           expect(response.body.result[0]).to.have.property("ads_name");
           expect(response.body.result[0]).to.have.property("ads_image");
