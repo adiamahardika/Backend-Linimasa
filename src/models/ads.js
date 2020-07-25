@@ -31,6 +31,18 @@ module.exports = {
       }
     });
   },
+  checkId: (ads_id) => {
+    return new Promise((resolve, reject) => {
+      connection.query(
+        `SELECT * FROM ads_table WHERE id = ?`,
+        ads_id,
+        (error, result) => {
+          if (error) reject(new Error(error));
+          resolve(result);
+        }
+      );
+    });
+  },
   updateAds: (data, ads_id) => {
     return new Promise((resolve, reject) => {
       connection.query("UPDATE ads_table SET ? WHERE id = ?", [data, ads_id]);
