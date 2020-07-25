@@ -139,7 +139,7 @@ describe("Commentar API", () => {
         });
     }),
     describe("/PATCH commentar", () => {
-      it("It should GET detail commentar", (done) => {
+      it("It should PATCH commentar", (done) => {
         const id = global[0].id;
         chai
           .request(api)
