@@ -4,7 +4,6 @@ const chai = require("chai");
 const chaiHttp = require("chai-http");
 const expect = require("chai").expect;
 const faker = require("faker");
-const { response } = require("express");
 
 chai.use(chaiHttp);
 
