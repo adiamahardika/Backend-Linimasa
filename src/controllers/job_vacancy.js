@@ -1,9 +1,6 @@
 const jobVacancyModel = require("../models/job_vacancy");
 const miscHelper = require("../helpers");
 const uniqid = require("uniqid");
-const { ip } = require("../configs");
-const { response } = require("express");
-const fileSystem = require("fs").promises;
 
 module.exports = {
   insertJobVacancy: async (request, response) => {

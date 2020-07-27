@@ -30,7 +30,7 @@ const newData = {
 
 describe("Job Vacancy Category API", () => {
   describe("/POST job vacancy category", () => {
-    it("It should POST a new job vacancy category model", (done) => {
+    it("It should POST a new job vacancy category", (done) => {
       chai
         .request(api)
         .post("/")

@@ -202,13 +202,6 @@ describe("Iklan Baris API", () => {
               expect(response.body).to.have.status(200);
               expect(response.body).to.have.property("total_data");
               expect(response.body).to.have.property("total_pages");
-              expect(response.body).to.have.property("next_page");
-              expect(response.body.next_page)
-                .to.have.property("limit")
-                .equal(pagination.limit);
-              expect(response.body.next_page)
-                .to.have.property("page")
-                .equal(pagination.page + 1);
               expect(response.body).to.have.property("result");
               expect(response.body.result[index]).to.have.property("id");
               expect(response.body.result[index]).to.have.property(
@@ -464,7 +457,7 @@ describe("Iklan Baris API", () => {
             });
         });
     }),
-    describe("/DELETE iklan bari", () => {
+    describe("/DELETE iklan baris", () => {
       it("It should DELETE iklan baris", (done) => {
         const id = global[0].id;
         chai
