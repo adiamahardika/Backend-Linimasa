@@ -25,19 +25,19 @@ const getIndex = (result) => {
 const news_image =
   "../backend_lensajabar/assets/upload/images/profile/default-profile-images.png";
 const data = {
-  news_title: faker.lorem.sentence(),
+  news_title: faker.lorem.word(),
   news_content: faker.lorem.paragraph(),
   news_image,
-  news_image_description: faker.lorem.sentences(),
-  news_category: faker.lorem.sentence(),
+  news_image_description: faker.lorem.words(),
+  news_category: faker.lorem.word(),
   news_author: faker.name.findName(),
 };
 const newData = {
-  news_title: faker.lorem.sentence(),
+  news_title: faker.lorem.word(),
   news_content: faker.lorem.paragraph(),
   news_image,
-  news_image_description: faker.lorem.sentences(),
-  news_category: faker.lorem.sentence(),
+  news_image_description: faker.lorem.words(),
+  news_category: faker.lorem.words(),
   news_author: faker.name.findName(),
 };
 const pagination = {

@@ -22,7 +22,7 @@ const getIndex = (result) => {
   return result.findIndex((x) => x.id === global[0].id);
 };
 const data = {
-  job_vacancy_title: faker.lorem.lines(),
+  job_vacancy_title: faker.lorem.word(),
   job_vacancy_company: faker.company.companyName(),
   job_vacancy_location: faker.address.streetAddress(),
   job_vacancy_salary_start: parseInt(faker.commerce.price()),
@@ -35,7 +35,7 @@ const data = {
   job_vacancy_author: faker.name.findName(),
 };
 const newData = {
-  job_vacancy_title: faker.lorem.lines(),
+  job_vacancy_title: faker.lorem.word(),
   job_vacancy_company: faker.company.companyName(),
   job_vacancy_location: faker.address.streetAddress(),
   job_vacancy_salary_start: parseInt(faker.commerce.price()),
