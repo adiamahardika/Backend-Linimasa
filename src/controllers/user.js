@@ -34,7 +34,7 @@ module.exports = {
         );
         const user_name = request.body.user_name;
         const id =
-          user_name.toLowerCase().split(" ").join("-") +
+          user_name.toLowerCase().replace(/[^a-zA-Z0-9- ]/g, "").split(" ").join("-") +
           "-" +
           uniqid.process();
         if (!request.file || Object.keys(request.file).length === 0) {
