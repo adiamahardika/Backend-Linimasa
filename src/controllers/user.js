@@ -102,7 +102,7 @@ module.exports = {
           id: dataUser.id,
         };
         const token = JWT.sign(user, JWT_Key, { expiresIn: "1h" });
-        const refreshToken = JWT.sign(user, JWT_Refresh, { expiresIn: "7d" });
+        const refresh_token = JWT.sign(user, JWT_Refresh, { expiresIn: "7d" });
 
         delete dataUser.user_salt;
         delete dataUser.user_password;
@@ -110,10 +110,12 @@ module.exports = {
         delete dataUser.user_birth_date;
         delete dataUser.user_points;
         delete dataUser.user_phone_number
+        delete dataUser.date_created
+        delete dataUser.date_updated
         
 
         dataUser.token = token;
-        dataUser.refreshToken = refreshToken;
+        dataUser.refresh_token = refresh_token;
 
         tokenList[dataUser.user_email] = dataUser;
         miscHelper.customResponse(response, 200, dataUser);
@@ -134,7 +136,7 @@ module.exports = {
   },
   token: async (request, response) => {
     setData = request.body;
-    if (setData.refreshToken == tokenList[setData.user_email].refreshToken) {
+    if (setData.refresh_token == tokenList[setData.user_email].refresh_token) {
       const user = {
         user_email: tokenList.user_email,
         id: tokenList.id,
@@ -230,7 +232,7 @@ module.exports = {
       const user_id = request.params.user_id;
       await deleteFile(user_id);
       const result = await userModel.deleteUser(user_id);
-      miscHelper.customErrorResponse(response, 200, result);
+      miscHelper.customResponse(response, 200, result);
     } catch (error) {
       console.log(error);
       miscHelper.customErrorResponse(response, 404, "Cannot delete user!");

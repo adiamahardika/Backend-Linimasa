@@ -19,8 +19,8 @@ const checkVideo = (video_title) => {
     }
   );
 };
-const getIndex = (index) => {
-  return index.findIndex((x) => x.id === global[0].id);
+const getIndex = (result) => {
+  return result.findIndex((x) => x.id === global[0].id);
 };
 const video = "../backend_lensajabar/video_test.mp4";
 const data = {

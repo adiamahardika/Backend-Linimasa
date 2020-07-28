@@ -48,7 +48,7 @@ describe("News API", () => {
   describe("/POST news", () => {
     it("It should POST a new news", (done) => {
       chai
-        .request(`${ip}/news`)
+        .request(api)
         .post("/")
         .field("news_title", data.news_title)
         .field("news_content", data.news_content)

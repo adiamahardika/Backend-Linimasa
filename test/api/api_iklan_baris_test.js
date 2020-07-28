@@ -22,10 +22,10 @@ const checkIklanBarisTitle = (iklan_baris_title) => {
 const getIndex = (result) => {
   return result.findIndex((x) => x.id === global[0].id);
 };
+const iklan_baris_image = "../backend_lensajabar/assets/upload/images/profile/default-profile-images.png"
 const data = {
-  iklan_baris_title: faker.lorem.lines(),
-  iklan_baris_image:
-    "../backend_lensajabar/assets/upload/images/profile/default-profile-images.png",
+  iklan_baris_title: faker.lorem.words(),
+  iklan_baris_image,
   iklan_baris_description: faker.lorem.paragraph(),
   iklan_baris_price: parseInt(faker.commerce.price()),
   iklan_baris_category: faker.random.word(),
@@ -37,9 +37,8 @@ const data = {
   iklan_baris_sub_district: faker.address.county(),
 };
 const newData = {
-  iklan_baris_title: faker.lorem.lines(),
-  iklan_baris_image:
-    "../backend_lensajabar/assets/upload/images/profile/default-profile-images.png",
+  iklan_baris_title: faker.lorem.words(),
+  iklan_baris_image,
   iklan_baris_description: faker.lorem.paragraph(),
   iklan_baris_price: parseInt(faker.commerce.price()),
   iklan_baris_category: faker.random.word(),
@@ -392,16 +391,7 @@ describe("Iklan Baris API", () => {
           chai
             .request(api)
             .patch("/" + id)
-            .field("iklan_baris_title", newData.iklan_baris_title)
-            .field("iklan_baris_description", newData.iklan_baris_description)
-            .field("iklan_baris_price", newData.iklan_baris_price)
-            .field("iklan_baris_category", newData.iklan_baris_category)
-            .field("iklan_baris_author", newData.iklan_baris_author)
-            .field("iklan_baris_contact", newData.iklan_baris_contact)
-            .field("iklan_baris_address", newData.iklan_baris_address)
-            .field("iklan_baris_province", newData.iklan_baris_province)
-            .field("iklan_baris_city", newData.iklan_baris_city)
-            .field("iklan_baris_sub_district", newData.iklan_baris_sub_district)
+            .send(newData)
             .end((error, response) => {
               let index = getIndex(response.body.result);
               expect(response.body).to.be.a("Object");
