@@ -37,6 +37,7 @@ module.exports = {
         date_created: new Date(),
         date_updated: new Date(),
       };
+      console.log(request.file)
       const result = await videoModel.insertVideo(data);
       miscHelper.customResponse(response, 200, result);
     } catch (error) {

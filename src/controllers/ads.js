@@ -32,7 +32,7 @@ module.exports = {
       miscHelper.customResponse(response, 200, result);
     } catch (error) {
       console.log(error);
-      miscHelper.customErrorResponse(response, 200, "Cannot insert ads!");
+      miscHelper.customErrorResponse(response, 404, "Cannot insert ads!");
     }
   },
   readAds: async (request, response) => {
