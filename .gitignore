@@ -2,3 +2,4 @@
 node_modules
 package-lock.json
 video_test.mp4
+coverage

@@ -3,6 +3,7 @@ const miscHelper = require("../helpers");
 const uniqid = require("uniqid");
 const { ip } = require("../configs");
 const fileSystem = require("fs").promises;
+const { compress } = require("../controllers/upload")
 
 const deleteFile = async (ads_id) => {
   const checkId = await adsModel.checkId(ads_id);
@@ -18,6 +19,7 @@ const deleteFile = async (ads_id) => {
 module.exports = {
   insertAds: async (request, response) => {
     try {
+      compress(request.file.path)
       const ads_name = request.body.ads_name;
       const id =
         ads_name.toLowerCase().split(" ").join("-") + "-" + uniqid.time();
