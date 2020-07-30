@@ -3,7 +3,7 @@ const miscHelper = require("../helpers");
 const uniqid = require("uniqid");
 const { ip } = require("../configs");
 const fileSystem = require("fs").promises;
-const { compress } = require("../controllers/upload")
+const { compress } = require("./upload");
 
 const deleteFile = async (ads_id) => {
   const checkId = await adsModel.checkId(ads_id);
@@ -19,7 +19,7 @@ const deleteFile = async (ads_id) => {
 module.exports = {
   insertAds: async (request, response) => {
     try {
-      compress(request.file.path)
+      await compress(request.file.path);
       const ads_name = request.body.ads_name;
       const id =
         ads_name.toLowerCase().split(" ").join("-") + "-" + uniqid.time();
@@ -59,6 +59,7 @@ module.exports = {
         miscHelper.customResponse(response, 200, result);
       } else {
         await deleteFile(ads_id);
+        await compress(request.file.path);
         const data = {
           ads_name: request.body.ads_name,
           ads_image: `http://${ip}/assets/upload/images/ads/${request.file.filename}`,
@@ -75,7 +76,7 @@ module.exports = {
   deleteAds: async (request, response) => {
     try {
       const ads_id = request.params.ads_id;
-      await deleteFile(ads_id);
+      await deleteFile(ads_id)
       const result = await adsModel.deleteAds(ads_id);
       miscHelper.customResponse(response, 200, result);
     } catch (error) {

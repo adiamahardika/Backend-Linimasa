@@ -3,6 +3,7 @@ const miscHelper = require("../helpers");
 const uniqid = require("uniqid");
 const { ip } = require("../configs");
 const filesystem = require("fs").promises;
+const { compress } = require("./upload");
 
 const deleteFile = async (iklan_baris_id) => {
   const checkId = await iklanBarisModel.checkId(iklan_baris_id);
@@ -18,6 +19,7 @@ const deleteFile = async (iklan_baris_id) => {
 module.exports = {
   insertIklanBaris: async (request, response) => {
     try {
+      await compress(request.file.path);
       const iklan_baris_title = request.body.iklan_baris_title;
       const id =
         iklan_baris_title
@@ -120,6 +122,7 @@ module.exports = {
         miscHelper.customResponse(response, 200, result);
       } else {
         await deleteFile(iklan_baris_id);
+        await compress(request.file.path);
         const data = {
           iklan_baris_title: request.body.iklan_baris_title,
           iklan_baris_image: `http://${ip}/assets/upload/images/iklan_baris/${request.file.filename}`,

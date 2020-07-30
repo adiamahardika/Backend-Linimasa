@@ -46,16 +46,17 @@ const videoLimits = {
   fileSize: 1024 * 1024 * 12,
 };
 module.exports = {
-  compress: (path) => {
-    sharp("./" + path)
+  compress: async (path) => {
+    await sharp("./" + path)
       .toBuffer()
-      .then((data) => {
-        sharp(data)
+      .then(async (data) => {
+       await sharp(data)
           .jpeg({
             quality: 80,
           })
           .toFile("./" + path);
-      });
+      })
+      console.log('compress');
   },
   uploadNewsImages: multer({
     fileFilter: imageFilter,

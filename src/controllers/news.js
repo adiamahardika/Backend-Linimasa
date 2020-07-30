@@ -3,11 +3,11 @@ const miscHelper = require("../helpers");
 const uniqid = require("uniqid");
 const { ip } = require("../configs");
 const filesystem = require("fs").promises;
-
+const { compress } = require("./upload");
 const deleteFile = async (news_id) => {
   const checkId = await newsModel.checkId(news_id);
   const dataNews = checkId[0];
-  if (dataNews !== undefined){
+  if (dataNews !== undefined) {
     const path = dataNews.news_image.replace(
       `http://${ip}`,
       `../backend_lensajabar`
@@ -18,6 +18,7 @@ const deleteFile = async (news_id) => {
 module.exports = {
   insertNews: async (request, response) => {
     try {
+      await compress(request.file.path);
       const news_title = request.body.news_title;
       const id =
         news_title
@@ -57,16 +58,17 @@ module.exports = {
         search_title,
         search_category,
         sort_by,
-        order_by)
-      const page = parseInt(request.query.page) || 1
-      const limit = parseInt(request.query.limit) || 5
-      const start_index = (page - 1) * limit
+        order_by
+      );
+      const page = parseInt(request.query.page) || 1;
+      const limit = parseInt(request.query.limit) || 5;
+      const start_index = (page - 1) * limit;
       const pagination = {
         total_data,
         page,
         limit,
-        start_index
-      }
+        start_index,
+      };
       const result = await newsModel.readNews(
         news_id,
         search_title,
@@ -98,6 +100,7 @@ module.exports = {
         miscHelper.customResponse(response, 200, result);
       } else {
         await deleteFile(news_id);
+        await compress(request.file.path);
         const data = {
           news_title: request.body.news_title,
           news_image: `http://${ip}/assets/upload/images/news/${request.file.filename}`,

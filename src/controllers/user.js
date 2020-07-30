@@ -5,7 +5,7 @@ const { ip, JWT_Key, JWT_Refresh } = require("../configs");
 const JWT = require("jsonwebtoken");
 const tokenList = {};
 const filesystem = require("fs").promises;
-
+const { compress } = require("./upload");
 const deleteFile = async (user_id) => {
   const checkId = await userModel.checkId(user_id);
   const dataUser = checkId[0];
@@ -24,6 +24,7 @@ const deleteFile = async (user_id) => {
 module.exports = {
   register: async (request, response) => {
     try {
+      await compress(request.file.path);
       const emailValid = await userModel.checkEmail(request.body.user_email);
       const dataUser = emailValid[0];
       if (dataUser == undefined) {
@@ -34,7 +35,11 @@ module.exports = {
         );
         const user_name = request.body.user_name;
         const id =
-          user_name.toLowerCase().replace(/[^a-zA-Z0-9- ]/g, "").split(" ").join("-") +
+          user_name
+            .toLowerCase()
+            .replace(/[^a-zA-Z0-9- ]/g, "")
+            .split(" ")
+            .join("-") +
           "-" +
           uniqid.process();
         if (!request.file || Object.keys(request.file).length === 0) {
@@ -109,10 +114,9 @@ module.exports = {
         delete dataUser.user_image;
         delete dataUser.user_birth_date;
         delete dataUser.user_points;
-        delete dataUser.user_phone_number
-        delete dataUser.date_created
-        delete dataUser.date_updated
-        
+        delete dataUser.user_phone_number;
+        delete dataUser.date_created;
+        delete dataUser.date_updated;
 
         dataUser.token = token;
         dataUser.refresh_token = refresh_token;
@@ -145,7 +149,7 @@ module.exports = {
 
       tokenList[setData.user_email].token = token;
 
-      miscHelper.customResponse(response, 200, tokenList);
+      miscHelper.customResponse(response, 200, tokenList[setData.user_email]);
     } else {
       return miscHelper.customErrorResponse(
         response,
@@ -175,7 +179,7 @@ module.exports = {
         total_data,
         page,
         limit,
-        start_index
+        start_index,
       };
       const result = await userModel.readUser(
         user_id,
@@ -209,6 +213,7 @@ module.exports = {
         miscHelper.customResponse(response, 200, result);
       } else {
         await deleteFile(user_id);
+        await compress(request.file.path);
         const data = {
           user_name: request.body.user_name,
           user_email: request.body.user_email,
