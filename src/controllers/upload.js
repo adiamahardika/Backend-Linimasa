@@ -56,7 +56,6 @@ module.exports = {
           })
           .toFile("./" + path);
       })
-      console.log('compress');
   },
   uploadNewsImages: multer({
     fileFilter: imageFilter,

@@ -23,9 +23,6 @@ const getIndex = (result) => {
   return result.findIndex((x) => x.id === global[0].id);
 };
 const tokenList = {};
-const pushData = (result) => {
-  return (tokenList[0] = result);
-};
 const user_image =
   "../backend_lensajabar/assets/upload/images/profile/default-profile-images.png";
 const data = {
@@ -53,7 +50,7 @@ const pagination = {
   page: 1,
 };
 describe("User API", () => {
-  describe("/POST user", async () => {
+  describe("/POST user", () => {
     it("It should Register a new user", (done) => {
       chai
         .request(api)
@@ -109,31 +106,34 @@ describe("User API", () => {
           });
       }),
       it("It should Refresh new token", () => {
+        const refreshToken = {
+          user_email : data.user_email,
+          refresh_token : tokenList[0].refresh_token
+        }
         chai
           .request(api)
           .post("/token")
-          .field("user_email", data.user_email)
-          .field("refresh_token", tokenList[0].refresh_token)
+          .send(refreshToken)
           .end((error, response) => {
             expect(response.body).to.be.a("Object");
             expect(response.body).to.have.status(200);
             expect(response.body).to.have.property("result");
-            expect(response.body.result[data.user_email]).to.have.property(
+            expect(response.body.result).to.have.property(
               "id"
             );
-            expect(response.body.result[data.user_email]).to.have.property(
+            expect(response.body.result).to.have.property(
               "user_name"
             );
-            expect(response.body.result[data.user_email]).to.have.property(
+            expect(response.body.result).to.have.property(
               "user_email"
             );
-            expect(response.body.result[data.user_email]).to.have.property(
+            expect(response.body.result).to.have.property(
               "user_role"
             );
-            expect(response.body.result[data.user_email]).to.have.property(
+            expect(response.body.result).to.have.property(
               "token"
             );
-            expect(response.body.result[data.user_email])
+            expect(response.body.result)
               .to.have.property("refresh_token")
               .equal(tokenList[0].refresh_token);
           });

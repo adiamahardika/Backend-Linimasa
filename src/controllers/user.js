@@ -139,7 +139,7 @@ module.exports = {
     }
   },
   token: async (request, response) => {
-    setData = request.body;
+    const setData = request.body;
     if (setData.refresh_token == tokenList[setData.user_email].refresh_token) {
       const user = {
         user_email: tokenList.user_email,
