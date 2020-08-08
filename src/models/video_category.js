@@ -1,5 +1,5 @@
 const connection = require("../configs/mysql");
-const readQuery = `SELECT * FROM video_category_table`;
+const readQuery = `SELECT * FROM video_category_table ORDER BY video_category_name ASC`;
 
 module.exports = {
   insertVideoCategory: (data) => {
@@ -23,10 +23,10 @@ module.exports = {
       );
     });
   },
-  readVideoCategory: (search_video_category_name) => {
+  readVideoCategory: (search_video_category_name, sort_by, order_by) => {
     return new Promise((resolve, reject) => {
       connection.query(
-        `SELECT * FROM video_category_table WHERE video_category_table.video_category_name LIKE '%${search_video_category_name}%'`,
+        `SELECT * FROM video_category_table WHERE video_category_table.video_category_name LIKE '%${search_video_category_name}%' ORDER BY ${sort_by} ${order_by}`,
         (error, result) => {
           if (error) reject(new Error(error));
           resolve(result);

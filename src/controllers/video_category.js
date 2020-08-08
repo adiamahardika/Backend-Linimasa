@@ -34,8 +34,10 @@ module.exports = {
     try {
       const search_video_category_name =
         request.query.video_category_name || "";
+        const sort_by = request.query.sort_by || "video_category_name"
+        const order_by = request.query.order_by || "ASC"
       const result = await videoCategoryModel.readVideoCategory(
-        search_video_category_name
+        search_video_category_name, sort_by, order_by
       );
       miscHelper.customResponse(response, 200, result);
     } catch (error) {
