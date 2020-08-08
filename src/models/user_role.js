@@ -1,5 +1,5 @@
 const connection = require("../configs/mysql");
-const readQuery = `SELECT * FROM user_role_table`;
+const readQuery = `SELECT * FROM user_role_table ORDER BY user_role_name ASC`;
 
 module.exports = {
   insertUserRole: (data) => {
@@ -23,10 +23,10 @@ module.exports = {
       );
     });
   },
-  readUserRole: (search_user_role) => {
+  readUserRole: (search_user_role, sort_by, order_by) => {
     return new Promise((resolve, reject) => {
       connection.query(
-        `SELECT * FROM user_role_table WHERE user_role_table.user_role_name LIKE '%${search_user_role}%'`,
+        `SELECT * FROM user_role_table WHERE user_role_table.user_role_name LIKE '%${search_user_role}%' ORDER BY ${sort_by} ${order_by}`,
         (error, result) => {
           if (error) reject(new Error(error));
           resolve(result);

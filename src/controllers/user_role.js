@@ -35,7 +35,13 @@ module.exports = {
   readUserRole: async (request, response) => {
     try {
       const search_user_role = request.query.user_role_name || "";
-      const result = await userRoleModel.readUserRole(search_user_role);
+      const sort_by = request.query.sort_by || "user_role_name";
+      const order_by = request.query.order_by || "ASC";
+      const result = await userRoleModel.readUserRole(
+        search_user_role,
+        sort_by,
+        order_by
+      );
       miscHelper.customResponse(response, 200, result);
     } catch (error) {
       console.log(error);
