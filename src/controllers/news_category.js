@@ -39,8 +39,10 @@ module.exports = {
   readNewsCategory: async (request, response) => {
     try {
       const search_news_category_name = request.query.news_category_name || "";
+      const sort_by = request.query.sort_by || "news_category_name"
+      const order_by = request.query.order_by || "ASC"
       const result = await categoryModel.readNewsCategory(
-        search_news_category_name
+        search_news_category_name, sort_by, order_by
       );
       miscHelper.customResponse(response, 200, result);
     } catch (error) {
