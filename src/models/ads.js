@@ -1,6 +1,6 @@
 const connection = require("../configs/mysql");
 
-const readQuery = `SELECT * FROM ads_table`;
+const readQuery = `SELECT * FROM ads_table ORDER BY ads_name ASC`;
 
 module.exports = {
   insertAds: (data) => {
