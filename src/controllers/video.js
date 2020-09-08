@@ -59,7 +59,7 @@ module.exports = {
         order_by
       );
       const page = parseInt(request.query.page) || 1;
-      const limit = parseInt(request.query.limit) || 5;
+      const limit = parseInt(request.query.limit) || 50;
       const start_index = (page - 1) * limit;
       const pagination = {
         total_data,
